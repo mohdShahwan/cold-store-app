@@ -1,0 +1,7 @@
+{
+  "name": "cold-store-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
