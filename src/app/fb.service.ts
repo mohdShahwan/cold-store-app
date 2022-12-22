@@ -4,8 +4,8 @@ import { AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { DocumentReference } from '@angular/fire/compat/firestore';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { AlertController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { ToastController } from '@ionic/angular';
 
 export interface User {
   id?: string,
@@ -20,10 +20,10 @@ export interface User {
 })
 
 export class FbService {
-  private users: Observable<User[]>;
-  private usersCollection: AngularFirestoreCollection<User>;
+  public users: Observable<User[]>;
+  public usersCollection: AngularFirestoreCollection<User>;
 
-  constructor(private  afs:  AngularFirestore, private  afAuth: AngularFireAuth) { 
+  constructor(private  afs:  AngularFirestore, private  afAuth: AngularFireAuth, private toastCtrl: ToastController) { 
     this.usersCollection = this.afs.collection<User>('users');
     this.users = this.usersCollection.snapshotChanges().pipe(
       map(actions => {
@@ -36,12 +36,35 @@ export class FbService {
     );
   }
 
-  addUser(user:  User):  Promise<DocumentReference>  {
-    return  this.usersCollection.add(user); 
-}
+  async showToast(message: string, color: string){
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: "bottom",
+      color: color,
+    });
+    await toast.present();
+  }
 
-  SignUp(newUser:  User, newEmail: string, newPassword: string): Promise<any> {
-    this.addUser(newUser);
+  addUser(user:  User):  Promise<DocumentReference>  {
+    return this.usersCollection.add(user);
+  }
+
+  getUsers():  Observable<User[]>  {
+    return  this.users;
+  }
+  
+  getUser(id: string): Observable<User | undefined>{
+    return this.usersCollection.doc<User>(id).valueChanges().pipe(
+      map(user => {
+        if(user)
+          user.id = id;
+        return user
+      })
+    );
+  }
+
+  SignUp(newEmail: string, newPassword: string): Promise<any> {
     return this.afAuth.createUserWithEmailAndPassword(newEmail, newPassword);
   }
 
