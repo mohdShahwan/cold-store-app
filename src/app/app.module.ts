@@ -7,10 +7,10 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyBluRE_4K2MpRsnCRAitpo7jvHP8rKE28o",
@@ -34,6 +34,3 @@ const firebaseConfig = {
 })
 
 export class AppModule {}
-
-
-
