@@ -9,7 +9,6 @@ import { ToastController } from '@ionic/angular';
 
 export interface User {
   id?: string,
-  authId?: string,
   name: string,
   email: string,
   phone: string,
@@ -64,22 +63,10 @@ export class FbService {
     );
   }
 
-  getUserbyAuthId(authId: string): Observable<User | undefined>{
-    return this.usersCollection.doc<User>().valueChanges().pipe(
-      map(user => {
-        if(user)
-          user.id = authId;
-        return user
-        }
-      )
-    );
-  }
-
   register(user: User, newEmail: string, newPassword: string): Promise<any> {
     return this.afAuth.createUserWithEmailAndPassword(newEmail, newPassword)
       .then(res => {
         this.addUser({
-          authId: res.user?.uid,
           name: user.name,
           email: user.email,
           phone: user.phone,
@@ -106,6 +93,8 @@ export class FbService {
             this.currentUser = user;
         });
         this.showToast('Logged in successfully', 'success');
+        // Navigate to the suitable page according to the user type
+        
       })
       .catch(err => {
         if(err.code == 'auth/invalid-email' || err.code == 'auth/user-not-found' || err.code == 'auth/wrong-password')
@@ -118,8 +107,4 @@ export class FbService {
   logOut(): Promise<void> {
     return this.afAuth.signOut();
   }
-
-  // getCurrentUser(): User {
-  //   return this.currentUser;
-  // }
 }

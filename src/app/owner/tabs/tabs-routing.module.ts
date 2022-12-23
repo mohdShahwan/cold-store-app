@@ -8,10 +8,6 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'register',
-        loadChildren: () => import('../register/register.module').then(m => m.RegisterPageModule)
-      },
-      {
         path: '',
         redirectTo: '/tabs/register',
         pathMatch: 'full'
