@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FbService } from '../fb.service';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-register',
+  templateUrl: './register.page.html',
+  styleUrls: ['./register.page.scss'],
 })
-export class Tab1Page {
+export class RegisterPage implements OnInit {
 
-  constructor(private fb: FbService) {}
+  constructor(private fb: FbService) { }
+
+  ngOnInit() {
+  }
 
   fName: string = '';
   lName: string = '';
@@ -40,6 +43,5 @@ export class Tab1Page {
       });
     }
   }
-
 
 }
