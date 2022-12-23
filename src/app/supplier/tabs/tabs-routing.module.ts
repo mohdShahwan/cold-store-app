@@ -4,19 +4,23 @@ import { TabsPage } from './tabs.page';
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: '',
     component: TabsPage,
     children: [
+      // {
+      //   path: 'schedule',
+      //   loadChildren: () => import('../schedule/schedule.module').then(m => m.SchedulePageModule)
+      // },
       {
         path: '',
-        redirectTo: '/tabs/register',
+        redirectTo: 'supplier/tabs/',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/register',
+    redirectTo: 'supplier/tabs/',
     pathMatch: 'full'
   }
 ];
