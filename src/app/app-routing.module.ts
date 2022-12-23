@@ -14,10 +14,18 @@ const routes: Routes = [
       path: 'login',
       loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
     },
-    // {
-    //   path: 'tabs',
-    //   loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
-    // },
+    {
+      path: 'owner',
+      loadChildren: () => import('./owner/tabs/tabs.module').then( m => m.TabsPageModule)
+    },
+    {
+      path: 'employee',
+      loadChildren: () => import('./employee/tabs/tabs.module').then( m => m.TabsPageModule)
+    },
+    {
+      path: 'supplier',
+      loadChildren: () => import('./supplier/tabs/tabs.module').then( m => m.TabsPageModule)
+    },
   ];
 @NgModule({
   imports: [
