@@ -7,10 +7,10 @@ const routes: Routes = [
     path: '',
     component: TabsPage,
     children: [
-      // {
-      //   path: 'schedule',
-      //   loadChildren: () => import('../schedule/schedule.module').then(m => m.SchedulePageModule)
-      // },
+      {
+        path: 'profile',
+        loadChildren: () => import('../../profile/profile.module').then(m => m.ProfilePageModule)
+      },
       {
         path: '',
         redirectTo: 'supplier/tabs/',

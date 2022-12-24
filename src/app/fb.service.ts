@@ -9,6 +9,10 @@ import { NavController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 /*
+  deleteUserFromCollection
+*/
+
+/*
   ****** Users for Testing ******
   User 1 (Owner):
   Email: owner@gmail.com
@@ -111,7 +115,6 @@ export class FbService {
           phone: user.phone,
           userType: user.userType
         });
-        this.showToast(`${user.name} registered successfully`, 'success');
       }).catch(err => {
         if(err.code == 'auth/email-already-in-use')
           this.showToast('Email already in use', 'danger');
@@ -131,7 +134,6 @@ export class FbService {
           if(user.email == newEmail)
             this.currentUser = user;
         });
-        this.showToast('Logged in successfully', 'success');
         // Navigate to the suitable page according to the user type
         if(this.currentUser.userType == 'owner')
           this.navCtrl.navigateRoot('/owner');
@@ -153,5 +155,28 @@ export class FbService {
     //this.currentEmployee = {} as Employee;
     this.navCtrl.navigateRoot('/');
     return this.afAuth.signOut();
+  }
+
+  deleteUserFromAuth(): Promise<any> {
+    return this.afAuth.currentUser.then(user => {
+      if(user)
+        user.delete();
+    });
+  }
+
+  deleteUserFromCollection(): Promise<void> {
+    return this.usersCollection.doc(this.currentUser.id).delete()
+      .then(() => {
+        console.log('User deleted from collection successfully');
+      })
+      .catch(err => {
+        console.log('Error: ' + err.code);
+      });
+      // .then(() => {
+      //   this.showToast('User deleted successfully', 'success');
+      // })
+      // .catch(err => {
+      //   this.showToast(('Error: ' + err.code), 'danger');
+      // });
   }
 }

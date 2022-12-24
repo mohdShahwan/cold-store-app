@@ -23,6 +23,7 @@ export class RegisterPage implements OnInit {
   
   registerUser(){
     /* Form validation here */
+
     let newUser = {
       name: this.fName + ' ' + this.lName,
       email: this.email,
@@ -30,7 +31,11 @@ export class RegisterPage implements OnInit {
       userType: this.userType
     }
     if(this.password1 == this.password2){
-      this.fb.register(newUser, this.email, this.password1);
+      this.fb.register(newUser, this.email, this.password1)
+      .then(res => {
+        this.fb.showToast(`${newUser.name} registered successfully`, 'success');
+        this.fb.logIn(this.email, this.password1);
+      })
     }
   }
 

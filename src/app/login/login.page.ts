@@ -18,7 +18,10 @@ export class LoginPage implements OnInit {
 
   loginUser(){
     /* Form validation here */
-    this.fb.logIn(this.email, this.password);
+    this.fb.logIn(this.email, this.password)
+      .then(res => {
+        this.fb.showToast('Logged in successfully', 'success');
+      });
   }
 
 }

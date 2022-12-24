@@ -18,4 +18,10 @@ export class ProfilePage implements OnInit {
     this.fb.updateUser();
   }
 
+  deleteUser() {
+    this.fb.deleteUserFromCollection();
+    this.fb.deleteUserFromAuth();
+    this.fb.logOut();
+  }
+
 }
