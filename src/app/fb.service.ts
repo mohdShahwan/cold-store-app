@@ -5,14 +5,44 @@ import { DocumentReference } from '@angular/fire/compat/firestore';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { ToastController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
-export interface User {
+/*
+  ****** Users for Testing ******
+  User 1 (Owner):
+  Email: owner@gmail.com
+  Password: owner123
+
+  User 2 (Employee):
+  Email: emp@gmail.com
+  Password: emp1234
+
+  User 3 (Supplier):
+  Email: sup@gmail.com
+  Password: sup1234
+*/
+
+interface User {
   id?: string,
   name: string,
   email: string,
   phone: string,
   userType: string,
+}
+
+interface Employee {
+  id?: string,
+  user: User,
+  schedule: Schedule,
+}
+
+interface Schedule {
+  id?: string,
+  date: string,
+  day: string,
+  startTime: string,
+  endTime: string,
 }
 
 @Injectable({
@@ -25,7 +55,11 @@ export class FbService {
   public users: Observable<User[]>;
   public usersCollection: AngularFirestoreCollection<User>;
 
-  constructor(private  afs:  AngularFirestore, private  afAuth: AngularFireAuth, private toastCtrl: ToastController) { 
+  public allEmployees: Employee[] = [];
+  public currentEmployee = {} as Employee;
+  //public employees: Observable<Employee[]>;
+
+  constructor(private  afs:  AngularFirestore, private  afAuth: AngularFireAuth, private toastCtrl: ToastController, private router: Router, private navCtrl: NavController) { 
     this.usersCollection = this.afs.collection<User>('users');
     this.users = this.usersCollection.snapshotChanges().pipe(
       map(actions => {
@@ -72,7 +106,7 @@ export class FbService {
           phone: user.phone,
           userType: user.userType
         });
-        this.showToast('User created successfully', 'success');
+        this.showToast(`${user.name} registered successfully`, 'success');
       }).catch(err => {
         if(err.code == 'auth/email-already-in-use')
           this.showToast('Email already in use', 'danger');
@@ -94,7 +128,12 @@ export class FbService {
         });
         this.showToast('Logged in successfully', 'success');
         // Navigate to the suitable page according to the user type
-        
+        if(this.currentUser.userType == 'owner')
+          this.navCtrl.navigateRoot('/owner');
+        else if(this.currentUser.userType == 'employee')
+          this.navCtrl.navigateRoot('/employee');
+        else
+          this.navCtrl.navigateRoot('/supplier');
       })
       .catch(err => {
         if(err.code == 'auth/invalid-email' || err.code == 'auth/user-not-found' || err.code == 'auth/wrong-password')

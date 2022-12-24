@@ -7,20 +7,20 @@ const routes: Routes = [
     path: '',
     component: TabsPage,
     children: [
-      // {
-      //   path: 'schedule',
-      //   loadChildren: () => import('../schedule/schedule.module').then(m => m.SchedulePageModule)
-      // },
+      {
+        path: 'schedule',
+        loadChildren: () => import('../schedule/schedule.module').then(m => m.SchedulePageModule)
+      },
       {
         path: '',
-        redirectTo: 'owner/tabs/',
+        redirectTo: 'owner/tabs',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: 'owner/tabs/',
+    redirectTo: 'owner/tabs',
     pathMatch: 'full'
   }
 ];
