@@ -97,6 +97,11 @@ export class FbService {
     );
   }
 
+  updateUser() {
+    this.usersCollection.doc(this.currentUser.id).update(this.currentUser);
+    this.showToast('Profile updated successfully', 'success');
+  }
+
   register(user: User, newEmail: string, newPassword: string): Promise<any> {
     return this.afAuth.createUserWithEmailAndPassword(newEmail, newPassword)
       .then(res => {
@@ -144,6 +149,9 @@ export class FbService {
   }
 
   logOut(): Promise<void> {
+    this.currentUser = {} as User;
+    //this.currentEmployee = {} as Employee;
+    this.navCtrl.navigateRoot('/');
     return this.afAuth.signOut();
   }
 }

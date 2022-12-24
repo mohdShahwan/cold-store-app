@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FbService } from '../fb.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfilePage implements OnInit {
 
-  constructor() { }
+  constructor(public fb: FbService) { }
 
   ngOnInit() {
+  }
+
+  updateUser() {
+    // Check if any field has been touched to enable the update button
+    this.fb.updateUser();
   }
 
 }
