@@ -9,6 +9,7 @@ import { NavController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 /*
+  ****** Errors ******
   deleteUserFromCollection
 */
 
@@ -35,18 +36,27 @@ interface User {
   userType: string,
 }
 
-interface Employee {
-  id?: string,
-  user: User,
-  schedule: Schedule,
-}
+// interface Employee {
+//   id?: string,
+//   user: User,
+//   schedule: Slot[],
+// }
 
-interface Schedule {
+interface Slot {
   id?: string,
   date: string,
   day: string,
   startTime: string,
   endTime: string,
+}
+
+interface Item{
+  id?: string,
+  name: string,
+  price: number,
+  quantity: number,
+  supplier: User,
+  threshold: number,
 }
 
 @Injectable({
@@ -56,14 +66,20 @@ interface Schedule {
 export class FbService {
   public allUsers: User[] = [];
   public currentUser = {} as User;
-  public users: Observable<User[]>;
   public usersCollection: AngularFirestoreCollection<User>;
+  public users: Observable<User[]>;
 
-  public allEmployees: Employee[] = [];
-  public currentEmployee = {} as Employee;
+  // public allEmployees: Employee[] = [];
+  // public currentEmployee = {} as Employee;
   //public employees: Observable<Employee[]>;
 
+  public allItems: Item[] = [];
+  public itemsCollection: AngularFirestoreCollection<Item>;
+  public items: Observable<Item[]>;
+
+
   constructor(private  afs:  AngularFirestore, private  afAuth: AngularFireAuth, private toastCtrl: ToastController, private router: Router, private navCtrl: NavController) { 
+    // Users Collection
     this.usersCollection = this.afs.collection<User>('users');
     this.users = this.usersCollection.snapshotChanges().pipe(
       map(actions => {
@@ -75,6 +91,19 @@ export class FbService {
       })
     );
     this.users.subscribe(users => {this.allUsers = users;});
+
+    // Items Collection
+    this.itemsCollection = this.afs.collection<Item>('items');
+    this.items = this.itemsCollection.snapshotChanges().pipe(
+      map(actions => {
+        return  actions.map(a  =>  {
+          const  data  =  a.payload.doc.data();
+          const  id  =  a.payload.doc.id;
+          return  {  id,  ...data  };
+        });
+      })
+    );
+    this.items.subscribe(items => {this.allItems = items;});
   }
 
   async showToast(message: string, color: string){
