@@ -17,29 +17,26 @@ export class ShiftTradePage implements OnInit {
     
     ngOnInit() {
       this.fb.slots
-      .subscribe(slots => {
-        // remove slot if the employee is the current user
-        this.tradeSlots = slots.filter(slot => slot.employee.id != this.fb.currentUser.id);
-        // remove slot if it exists in the trade shift requests
-        this.tradeSlots = this.tradeSlots.filter(slot => !this.fb.shiftReqs.some(req => req.slot.id == slot.id));
-      });
+        .subscribe(slots => {
+          // remove slot if the employee is the current user
+          this.tradeSlots = slots.filter(slot => slot.employee.id != this.fb.currentUser.id);
+          // remove slot if it exists in the trade shift requests
+          this.tradeSlots = this.tradeSlots.filter(slot => !this.fb.shiftReqs.find(req => req.slot.id == slot.id));
+        });
       
       this.fb.tradeShiftReqs
-      .subscribe(reqs => {
-        // get all requests where the current user is the sender and the receiver or the owner has not approved
-        this.pendingSentReqs = reqs.filter(req => req.sender.id == this.fb.currentUser.id && (!req.empApprove || !req.ownerApprove));
-        // get all requests where the current user is the receiver and the sender or the owner has not approved
-        this.pendingComingReqs = reqs.filter(req => req.receiver.id == this.fb.currentUser.id && !req.empApprove);
-        // get all requests where the current user is the sender or the receiver and the owner has approved
-        this.reqsHistory = reqs.filter(req => (req.sender.id == this.fb.currentUser.id || req.receiver.id == this.fb.currentUser.id) && req.ownerApprove);
-      });
+        .subscribe(reqs => {
+          // get all requests where the current user is the sender and the receiver or the owner has not approved
+          this.pendingSentReqs = reqs.filter(req => req.sender.id == this.fb.currentUser.id && (!req.empApprove || !req.ownerApprove) && req.status == 'pending');
+          // get all requests where the current user is the receiver and the sender or the owner has not approved
+          this.pendingComingReqs = reqs.filter(req => req.receiver.id == this.fb.currentUser.id && !req.empApprove && req.status == 'pending');
+        });
     }
     
     
   tradeSlots: Slot[] = [];
   pendingSentReqs: TradeShiftRequest[] = [];
   pendingComingReqs: TradeShiftRequest[] = [];
-  reqsHistory: TradeShiftRequest[] = [];
 
 
   async requestTradeSlot(slot: Slot){
@@ -74,7 +71,7 @@ export class ShiftTradePage implements OnInit {
   async approveTradeRequest(req: TradeShiftRequest){
     const alert = await this.alertCtrl.create({
       header: 'Approve Trade',
-      message: `Are you sure you want to approve the trade request from ${req.sender.name} for ${req.slot.employee.name} on ${formatDate(req.slot.date, 'dd/MM/YYYY', 'en-US')} from ${formatDate(req.slot.startTime, 'h:mm a', 'en-US')} to ${formatDate(req.slot.endTime, 'h:mm a', 'en-US')}?`,
+      message: `Are you sure you want to approve the trade request from ${req.sender.name} on ${formatDate(req.slot.date, 'dd/MM/YYYY', 'en-US')} from ${formatDate(req.slot.startTime, 'h:mm a', 'en-US')} to ${formatDate(req.slot.endTime, 'h:mm a', 'en-US')}?`,
       buttons: [
         {
           text: 'Yes',
@@ -102,7 +99,7 @@ export class ShiftTradePage implements OnInit {
   async rejectTradeRequest(req: TradeShiftRequest){
     const alert = await this.alertCtrl.create({
       header: 'Reject Trade',
-      message: `Are you sure you want to reject the trade request from ${req.sender.name} for ${req.slot.employee.name} on ${formatDate(req.slot.date, 'dd/MM/YYYY', 'en-US')} from ${formatDate(req.slot.startTime, 'h:mm a', 'en-US')} to ${formatDate(req.slot.endTime, 'h:mm a', 'en-US')}?`,
+      message: `Are you sure you want to reject the trade request for ${req.sender.name} on ${formatDate(req.slot.date, 'dd/MM/YYYY', 'en-US')} from ${formatDate(req.slot.startTime, 'h:mm a', 'en-US')} to ${formatDate(req.slot.endTime, 'h:mm a', 'en-US')}?`,
       buttons: [
         {
           text: 'Yes',

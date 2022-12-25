@@ -197,6 +197,10 @@ export class FbService {
     return this.tradeShiftReqsCollection.doc(tradeShiftRequest.id).update(tradeShiftRequest);
   }
 
+  updateSlot(slot: Slot): Promise<any> {
+    return this.slotsCollection.doc(slot.id).update(slot);
+  }
+
   register(user: User, newEmail: string, newPassword: string): Promise<any> {
     return this.afAuth.createUserWithEmailAndPassword(newEmail, newPassword)
       .then(res => {

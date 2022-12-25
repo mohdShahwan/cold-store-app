@@ -20,6 +20,10 @@ const routes: Routes = [
         loadChildren: () => import('../schedule/schedule.module').then(m => m.SchedulePageModule)
       },
       {
+        path: 'trade-requests',
+        loadChildren: () => import('../trade-requests/trade-requests.module').then(m => m.TradeRequestsPageModule)
+      },
+      {
         path: '',
         redirectTo: 'owner/tabs',
         pathMatch: 'full'
