@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { NavController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs-compat';
 
 /*
   ****** Errors ******
@@ -66,6 +67,13 @@ export interface Item{
   supplier: User,
   threshold: number,
 }
+/* test */
+export interface Product {
+  id: number;
+  name: string;
+  price: number;
+  amount: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -88,8 +96,15 @@ export class FbService {
 
   public shiftReqs: TradeShiftRequest[] = [];
   public tradeShiftReqsCollection: AngularFirestoreCollection<TradeShiftRequest>;
-  public tradeShiftReqs: Observable<TradeShiftRequest[]>;
-
+  public tradeShiftReqs: Observable<TradeShiftRequest[]>; 
+  public Item = [
+    {id: 0, name: 'whater', price: 1.25, quantity: 10, supplier: 'User', threshold: "1" },
+    {id: 1, name: 'cola', price: 5.25, quantity: 7, supplier: 'ahmedComp', threshold: "1"   },
+    {id: 2, name: 'kitkat', price: 3, quantity: 6, supplier: 'D&G', threshold: "1"     }
+];
+  
+private cart = [];
+private cartItemCount = new BehaviorSubject(0);
 
   constructor(private  afs:  AngularFirestore, private  afAuth: AngularFireAuth, private toastCtrl: ToastController, private router: Router, private navCtrl: NavController) { 
     // Users Collection
@@ -275,4 +290,19 @@ export class FbService {
       //   this.showToast(('Error: ' + err.code), 'danger');
       // });
   }
+// store 
+getProducts() {
+  
+}
+
+getCart(){
+  return this.cart;
+}
+
+getCartItemCount() {
+  return this.cartItemCount;
+}
+
+
+
 }
