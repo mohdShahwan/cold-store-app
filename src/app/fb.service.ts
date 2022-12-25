@@ -35,8 +35,8 @@ export interface User {
   email: string,
   phone: string,
   userType: string,
-  employeeSchedule?: Slot[],
-  employeeTradeShiftRequests?: TradeShiftRequest[],
+  // employeeSchedule?: Slot[],
+  // employeeTradeShiftRequests?: TradeShiftRequest[],
 }
 
 export interface TradeShiftRequest {
