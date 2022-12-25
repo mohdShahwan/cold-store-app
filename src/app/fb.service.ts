@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { NavController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs-compat';
 
 /*
   ****** Errors ******
@@ -62,6 +63,13 @@ export interface Item{
   supplier: User,
   threshold: number,
 }
+/* test */
+export interface Product {
+  id: number;
+  name: string;
+  price: number;
+  amount: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -81,7 +89,22 @@ export class FbService {
   public allItems: Item[] = [];
   public itemsCollection: AngularFirestoreCollection<Item>;
   public items: Observable<Item[]>;
+ 
+  public Item = [
+    {id: 0, name: 'whater', price: 1.25, quantity: 10, supplier: 'User', threshold: "1" },
+    {id: 1, name: 'cola', price: 5.25, quantity: 7, supplier: 'User2', threshold: "1"   },
+    {id: 2, name: 'kitkat', price: 3, quantity: 6, supplier: 'User3', threshold: "1"    }
+];
+  
+data: Product[] = [
+  { id: 0, name: 'Pizza Salami', price: 8.99, amount: 0 },
+  { id: 1, name: 'Pizza Classic', price: 5.49, amount: 0 },
+  { id: 2, name: 'Sliced Bread', price: 4.99, amount: 0 },
+  { id: 3, name: 'Salad', price: 6.99, amount: 0 }
+];
 
+private cart = [];
+private cartItemCount = new BehaviorSubject(0);
 
   constructor(private  afs:  AngularFirestore, private  afAuth: AngularFireAuth, private toastCtrl: ToastController, private router: Router, private navCtrl: NavController) { 
     // Users Collection
@@ -232,4 +255,19 @@ export class FbService {
       //   this.showToast(('Error: ' + err.code), 'danger');
       // });
   }
+// store 
+getProducts() {
+  return this.data;
+}
+
+getCart(){
+  return this.cart;
+}
+
+getCartItemCount() {
+  return this.cartItemCount;
+}
+
+
+
 }

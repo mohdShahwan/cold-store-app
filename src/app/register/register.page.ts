@@ -8,7 +8,7 @@ import { FbService } from '../fb.service';
 })
 export class RegisterPage implements OnInit {
 
-  constructor(private fb: FbService) { }
+constructor(private fb: FbService) { }
 
   ngOnInit() {
   }
