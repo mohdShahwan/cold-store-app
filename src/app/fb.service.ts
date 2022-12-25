@@ -28,29 +28,33 @@ import { Router } from '@angular/router';
   Password: sup1234
 */
 
-interface User {
+export interface User {
   id?: string,
   name: string,
   email: string,
   phone: string,
   userType: string,
+  employeeSchedule?: Slot[],
+  employeeTradeShiftRequests?: TradeShiftRequest[],
 }
 
-// interface Employee {
-//   id?: string,
-//   user: User,
-//   schedule: Slot[],
-// }
+export interface TradeShiftRequest {
+  id?: string,
+  sender: User,
+  receiver: User,
+  senderSlot: Slot,
+  receiverSlot: Slot,
+}
 
-interface Slot {
+export interface Slot {
   id?: string,
   date: string,
   day: string,
   startTime: string,
-  endTime: string,
+  employee: User,
 }
 
-interface Item{
+export interface Item{
   id?: string,
   name: string,
   price: number,
@@ -65,13 +69,14 @@ interface Item{
 
 export class FbService {
   public allUsers: User[] = [];
+  public employees: User[] = [];
   public currentUser = {} as User;
   public usersCollection: AngularFirestoreCollection<User>;
   public users: Observable<User[]>;
 
-  // public allEmployees: Employee[] = [];
-  // public currentEmployee = {} as Employee;
-  //public employees: Observable<Employee[]>;
+  public slotsCollection: AngularFirestoreCollection<Slot>;
+  public slots: Observable<Slot[]>;
+  public allSlots: Slot[] = [];
 
   public allItems: Item[] = [];
   public itemsCollection: AngularFirestoreCollection<Item>;
@@ -91,6 +96,8 @@ export class FbService {
       })
     );
     this.users.subscribe(users => {this.allUsers = users;});
+    // Employees from users collection
+    this.users.subscribe(users => {this.employees = users.filter(user => user.userType == 'employee');});
 
     // Items Collection
     this.itemsCollection = this.afs.collection<Item>('items');
@@ -104,6 +111,19 @@ export class FbService {
       })
     );
     this.items.subscribe(items => {this.allItems = items;});
+
+    // Slots Collection
+    this.slotsCollection = this.afs.collection<Slot>('slots');
+    this.slots = this.slotsCollection.snapshotChanges().pipe(
+      map(actions => {
+        return  actions.map(a  =>  {
+          const  data  =  a.payload.doc.data();
+          const  id  =  a.payload.doc.id;
+          return  {  id,  ...data  };
+        });
+      })
+    );
+    this.slots.subscribe(slots => {this.allSlots = slots;});
   }
 
   async showToast(message: string, color: string){
@@ -118,6 +138,10 @@ export class FbService {
 
   addUser(user:  User):  Promise<DocumentReference>  {
     return this.usersCollection.add(user);
+  }
+
+  addSlot(slot: Slot): Promise<DocumentReference> {
+    return this.slotsCollection.add(slot);
   }
   
   getUser(id: string): Observable<User | undefined>{
