@@ -34,8 +34,8 @@ export interface User {
   email: string,
   phone: string,
   userType: string,
-  employeeSchedule?: Slot[],
-  employeeTradeShiftRequests?: TradeShiftRequest[],
+  // employeeSchedule?: string, //Slot[],
+  // employeeTradeShiftRequests?: TradeShiftRequest[],
 }
 
 export interface TradeShiftRequest {
@@ -49,8 +49,8 @@ export interface TradeShiftRequest {
 export interface Slot {
   id?: string,
   date: string,
-  day: string,
   startTime: string,
+  endTime: string,
   employee: User,
 }
 
@@ -154,9 +154,18 @@ export class FbService {
     );
   }
 
-  updateUser() {
-    this.usersCollection.doc(this.currentUser.id).update(this.currentUser);
-    this.showToast('Profile updated successfully', 'success');
+  updateCurrentUser(): Promise<any> {
+    return this.usersCollection.doc(this.currentUser.id).update(this.currentUser)
+      .then(() => {
+        this.showToast('Profile updated successfully', 'success');
+      }).catch(err => {
+        this.showToast('Error updating profile', 'danger');
+      }
+    );  
+  }
+
+  updateUser(user: User): Promise<any> {
+    return this.usersCollection.doc(user.id).update(user); 
   }
 
   register(user: User, newEmail: string, newPassword: string): Promise<any> {
