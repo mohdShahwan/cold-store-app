@@ -44,4 +44,8 @@ export class ProfilePage implements OnInit {
     alert.present();
   }
 
+  logOut() {
+    this.fb.logOut();
+  }
+
 }

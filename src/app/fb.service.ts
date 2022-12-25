@@ -227,11 +227,12 @@ export class FbService {
         });
         // Navigate to the suitable page according to the user type
         if(this.currentUser.userType == 'owner')
-          this.navCtrl.navigateRoot('/owner');
+          this.navCtrl.navigateForward('/owner');
         else if(this.currentUser.userType == 'employee')
-          this.navCtrl.navigateRoot('/employee');
+          this.navCtrl.navigateForward('/employee');
         else
-          this.navCtrl.navigateRoot('/supplier');
+          this.navCtrl.navigateForward('/supplier');
+        this.showToast('Logged in successfully', 'success');
       })
       .catch(err => {
         if(err.code == 'auth/invalid-email' || err.code == 'auth/user-not-found' || err.code == 'auth/wrong-password')
@@ -242,9 +243,9 @@ export class FbService {
   }
 
   logOut(): Promise<void> {
-    this.currentUser = {} as User;
+    this.navCtrl.navigateBack('/');
     //this.currentEmployee = {} as Employee;
-    this.navCtrl.navigateRoot('/');
+    this.currentUser = {} as User;
     return this.afAuth.signOut();
   }
 
