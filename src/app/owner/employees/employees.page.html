@@ -19,7 +19,7 @@
       <ion-item-divider sticky>
       </ion-item-divider>
         <ion-item *ngFor="let e of fb.employees">
-          <ion-label>
+          <ion-label (click)="showEmpInfo(e)">
             <h1>{{e.name}}</h1>
           </ion-label>
           <ion-buttons slot="end">
@@ -39,7 +39,7 @@
         <ion-toolbar>
           <ion-title></ion-title>
           <ion-buttons slot="start">
-            <ion-button (click)="empModal=false">Close</ion-button>
+            <ion-button (click)="hideEmpSch()">Close</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
@@ -58,5 +58,42 @@
       </ion-content>
     </ng-template>
   </ion-modal>
+
+    <!-- Employee Schedule Modal -->
+    <ion-modal [isOpen]="empInfoModal">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title></ion-title>
+            <ion-buttons slot="start">
+              <ion-button (click)="hideEmpInfo()">Close</ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content class="ion-padding">
+          <ion-list>
+            <ion-list-header>
+                {{selectedEmp.name}}
+            </ion-list-header>
+
+            <ion-item>
+              <ion-label position="floating">Name: </ion-label>
+              <ion-input type="text" [(ngModel)]="selectedEmp.name"></ion-input>
+            </ion-item>
+          
+            <ion-item>
+              <ion-label position="floating">Email: {{selectedEmp.email}}</ion-label>
+            </ion-item>
+          
+            <ion-item>
+              <ion-label position="floating">Phone: </ion-label>
+              <ion-input type="number" [(ngModel)]="selectedEmp.phone"></ion-input>
+            </ion-item>
+          
+            <ion-button expand="block" (click)="updateUser()">Update</ion-button>
+          </ion-list>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
 
 </ion-content>

@@ -30,4 +30,28 @@ export class EmployeesPage implements OnInit {
     });
     // Show employee's schedule slots
   }
+  hideEmpSch(){
+    this.empModal = false;
+    this.selectedEmp = {} as User;
+    this.selectedEmpSlots = [];
+  }
+
+  empInfoModal: boolean = false;
+  showEmpInfo(emp: User){
+    this.empInfoModal = true;
+    // Set selected employee
+    this.selectedEmp = emp;
+    // Show employee's info
+
+  }
+  hideEmpInfo(){
+    this.empInfoModal = false;
+    this.selectedEmp = {} as User;
+  }
+  updateUser() {
+    // Check if any field has been touched to enable the update button
+    this.fb.updateUser(this.selectedEmp);
+  }
+
+
 }
