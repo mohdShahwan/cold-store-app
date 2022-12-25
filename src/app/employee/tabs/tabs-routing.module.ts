@@ -16,6 +16,10 @@ const routes: Routes = [
         loadChildren: () => import('../schedule/schedule.module').then(m => m.SchedulePageModule)
       },
       {
+        path: 'shifts-trade',
+        loadChildren: () => import('../shift-trade/shift-trade.module').then(m => m.ShiftTradePageModule)
+      },
+      {
         path: '',
         redirectTo: 'employee/tabs/',
         pathMatch: 'full'

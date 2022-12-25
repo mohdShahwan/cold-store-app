@@ -15,15 +15,17 @@ import { Router } from '@angular/router';
 
 /*
   ****** Users for Testing ******
-  User 1 (Owner):
+  Owners:
   Email: owner@gmail.com
   Password: owner123
 
-  User 2 (Employee):
+  Employees:
   Email: emp@gmail.com
   Password: emp1234
+  Email: emp1@gmail.com
+  Password: emp1234
 
-  User 3 (Supplier):
+  Suppliers:
   Email: sup@gmail.com
   Password: sup1234
 */
@@ -42,8 +44,9 @@ export interface TradeShiftRequest {
   id?: string,
   sender: User,
   receiver: User,
-  senderSlot: Slot,
-  receiverSlot: Slot,
+  slot: Slot,
+  empApprove: boolean,
+  ownerApprove: boolean,
 }
 
 export interface Slot {
