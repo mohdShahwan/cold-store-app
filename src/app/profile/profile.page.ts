@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import { FbService } from '../fb.service';
 
 @Component({
@@ -8,7 +9,10 @@ import { FbService } from '../fb.service';
 })
 export class ProfilePage implements OnInit {
 
-  constructor(public fb: FbService) { }
+  constructor(
+    public fb: FbService,
+    private alertCtrl: AlertController,
+    ) { }
 
   ngOnInit() {
   }
@@ -18,10 +22,26 @@ export class ProfilePage implements OnInit {
     this.fb.updateCurrentUser();
   }
 
-  deleteUser() {
-    this.fb.deleteUserFromCollection();
-    this.fb.deleteUserFromAuth();
-    this.fb.logOut();
+  async deleteUser() {
+    const alert = await this.alertCtrl.create({
+      header: 'Delete Account',
+      message: 'Are you sure you want to delete your account? This action cannot be undone.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, {
+          text: 'Delete',
+          handler: () => {
+            this.fb.deleteUserFromCollection();
+            this.fb.deleteUserFromAuth();
+            this.fb.logOut();
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 
 }
