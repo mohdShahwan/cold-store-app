@@ -47,6 +47,7 @@ export interface TradeShiftRequest {
   slot: Slot,
   empApprove: boolean,
   ownerApprove: boolean,
+  status: string,
 }
 
 export interface Slot {
@@ -84,6 +85,10 @@ export class FbService {
   public allItems: Item[] = [];
   public itemsCollection: AngularFirestoreCollection<Item>;
   public items: Observable<Item[]>;
+
+  public shiftReqs: TradeShiftRequest[] = [];
+  public tradeShiftReqsCollection: AngularFirestoreCollection<TradeShiftRequest>;
+  public tradeShiftReqs: Observable<TradeShiftRequest[]>;
 
 
   constructor(private  afs:  AngularFirestore, private  afAuth: AngularFireAuth, private toastCtrl: ToastController, private router: Router, private navCtrl: NavController) { 
@@ -127,6 +132,19 @@ export class FbService {
       })
     );
     this.slots.subscribe(slots => {this.allSlots = slots;});
+
+    // Trade Shift Requests Collection
+    this.tradeShiftReqsCollection = this.afs.collection<TradeShiftRequest>('tradeShiftRequests');
+    this.tradeShiftReqs = this.tradeShiftReqsCollection.snapshotChanges().pipe(
+      map(actions => {
+        return  actions.map(a  =>  {
+          const  data  =  a.payload.doc.data();
+          const  id  =  a.payload.doc.id;
+          return  {  id,  ...data  };
+        });
+      })
+    );
+    this.tradeShiftReqs.subscribe(reqs => {this.shiftReqs = reqs;});
   }
 
   async showToast(message: string, color: string){
@@ -145,6 +163,10 @@ export class FbService {
 
   addSlot(slot: Slot): Promise<DocumentReference> {
     return this.slotsCollection.add(slot);
+  }
+
+  addTradeShiftRequest(tradeShiftRequest: TradeShiftRequest): Promise<DocumentReference> {
+    return this.tradeShiftReqsCollection.add(tradeShiftRequest);
   }
   
   getUser(id: string): Observable<User | undefined>{
@@ -169,6 +191,10 @@ export class FbService {
 
   updateUser(user: User): Promise<any> {
     return this.usersCollection.doc(user.id).update(user); 
+  }
+
+  updateTradeShiftRequest(tradeShiftRequest: TradeShiftRequest): Promise<any> {
+    return this.tradeShiftReqsCollection.doc(tradeShiftRequest.id).update(tradeShiftRequest);
   }
 
   register(user: User, newEmail: string, newPassword: string): Promise<any> {
