@@ -12,8 +12,16 @@ const routes: Routes = [
         loadChildren: () => import('../../profile/profile.module').then(m => m.ProfilePageModule)
       },
       {
+        path: 'employees',
+        loadChildren: () => import('../employees/employees.module').then(m => m.EmployeesPageModule)
+      },
+      {
         path: 'schedule',
         loadChildren: () => import('../schedule/schedule.module').then(m => m.SchedulePageModule)
+      },
+      {
+        path: 'trade-requests',
+        loadChildren: () => import('../trade-requests/trade-requests.module').then(m => m.TradeRequestsPageModule)
       },
       {
         path: '',

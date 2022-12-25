@@ -26,85 +26,94 @@
     </ion-toolbar> -->
   </ion-header>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="empListModal=true">
-      <ion-icon name="people-outline"></ion-icon>
+  <ion-list>
+    <!-- [hidden]="groups.length === 0" -->
+    <ion-item-group >
+      <!-- *ngFor="let group of groups" -->
+      <ion-item-divider sticky>
+      </ion-item-divider>
+        <ion-item *ngFor="let slot of shownSlots">
+          <ion-label>
+            <h1>{{slot.employee.name}}</h1>
+            {{slot.date | date: 'EEEE, dd/MMM'}}
+            <p>
+              {{slot.startTime | date: 'h:mm a'}} &mdash; {{slot.endTime | date: 'h:mm a'}}
+            </p>
+          </ion-label>
+        </ion-item>
+      
+    </ion-item-group>
+  </ion-list>
+
+  <ion-list-header [hidden]="shownSlots.length > 0">
+    No Slots Found
+  </ion-list-header>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="assModal=true">
+      <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
-  <!-- Employees List Modal setOpen(empListModal, true)-->
-  <ion-modal [isOpen]="empListModal">
+
+
+  <!-- Shift Assignment Modal -->
+  <ion-modal [isOpen]="assModal">
     <ng-template>
       <ion-header>
         <ion-toolbar>
           <ion-title></ion-title>
           <ion-buttons slot="start">
-            <ion-button (click)="empListModal=true">Close</ion-button>
+            <ion-button (click)="assModal=false">Close</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
         <ion-list>
           <ion-list-header>
-              Employees
+              Assign Shift to Employee
           </ion-list-header>
-          <ion-item *ngFor="let e of fb.employees">
-            <ion-label>{{e.name}}</ion-label>
-            <ion-buttons slot="end">
-              <ion-button (click)="assignShift(e)">Assign Shift</ion-button>
-            </ion-buttons>
-          </ion-item>
-        </ion-list>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
 
-  <!-- Employee Schedule Modal  (click)="empSchedule(e.name)"-->
-  <ion-modal [isOpen]="empScheduleModal">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title></ion-title>
-          <ion-buttons slot="start">
-            <ion-button (click)="empScheduleModal=false">Close</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-
-        <ion-list>
-
-          <ion-list-header>
-              Assign shift to {{selectedEmployee.name}}
-          </ion-list-header>
-          
           <ion-item>
             <ion-label>Select Date</ion-label>
             <ion-input id="selectedDate" value="{{ selectedDate | date: 'dd/MM/yyyy' }}" class="ion-text-end"></ion-input>
             <ion-popover trigger="selectedDate" size="cover">
               <ng-template>
-                <ion-datetime presentation="date" [(ngModel)]="selectedDate" (ionChange)="populateTimes()"></ion-datetime>
+                <ion-datetime [min]="minDate" presentation="date" [(ngModel)]="selectedDate"></ion-datetime>
               </ng-template>
             </ion-popover>
           </ion-item>
 
-          <ion-item *ngIf="availableTimes.length>0">
-            <ion-label>Available Slots</ion-label>
-            <ion-select [(ngModel)]="selectedTime" interface="popover" placeholder="Select Start Time">
-              <ion-select-option *ngFor="let t of availableTimes" [value]="t">{{t}}</ion-select-option>
+          <ion-item>
+            <ion-label>Start Time</ion-label>
+            <ion-input id="selectedStartTime" value="{{ selectedStartTime | date: 'h:mm a' }}" class="ion-text-end"></ion-input>
+            <ion-popover trigger="selectedStartTime" size="cover">
+              <ng-template>
+                <ion-datetime [hourValues]="hourValues" presentation="time" [(ngModel)]="selectedStartTime"></ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>End Time</ion-label>
+            <ion-input id="selectedEndTime" value="{{ selectedEndTime | date: 'h:mm a' }}" class="ion-text-end"></ion-input>
+            <ion-popover trigger="selectedEndTime" size="cover">
+              <ng-template>
+                <ion-datetime [hourValues]="hourValues" presentation="time" [(ngModel)]="selectedEndTime"></ion-datetime>
+              </ng-template>
+            </ion-popover>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Employee</ion-label>
+            <ion-select [(ngModel)]="selectedEmployee" interface="popover">
+              <ion-select-option *ngFor="let e of fb.employees" [value]="e">{{e.name}}</ion-select-option>
             </ion-select>
           </ion-item>
           
-          <!-- We have to use touched to hide this item for the first time -->
-          <ion-item *ngIf="availableTimes.length==0">
-            <ion-label color="danger">No available slots for the selected date</ion-label>
-          </ion-item>
-          
-          <!-- Make sure that there is a selected time to enable the button -->
-          <ion-button (click)="assignSlot()" expand="block" *ngIf="availableTimes.length>0 && selectedTime">Assign</ion-button>
-        
-        </ion-list>
+          <ion-button (click)="assignSlot()" expand="block" *ngIf="selectedDate && selectedStartTime && selectedEndTime && selectedEmployee">Assign Shift</ion-button>
 
+        </ion-list>
       </ion-content>
     </ng-template>
   </ion-modal>

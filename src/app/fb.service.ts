@@ -16,15 +16,17 @@ import { BehaviorSubject } from 'rxjs-compat';
 
 /*
   ****** Users for Testing ******
-  User 1 (Owner):
+  Owners:
   Email: owner@gmail.com
   Password: owner123
 
-  User 2 (Employee):
+  Employees:
   Email: emp@gmail.com
   Password: emp1234
+  Email: emp1@gmail.com
+  Password: emp1234
 
-  User 3 (Supplier):
+  Suppliers:
   Email: sup@gmail.com
   Password: sup1234
 */
@@ -43,15 +45,17 @@ export interface TradeShiftRequest {
   id?: string,
   sender: User,
   receiver: User,
-  senderSlot: Slot,
-  receiverSlot: Slot,
+  slot: Slot,
+  empApprove: boolean,
+  ownerApprove: boolean,
+  status: string,
 }
 
 export interface Slot {
   id?: string,
   date: string,
-  day: string,
   startTime: string,
+  endTime: string,
   employee: User,
 }
 
@@ -89,7 +93,10 @@ export class FbService {
   public allItems: Item[] = [];
   public itemsCollection: AngularFirestoreCollection<Item>;
   public items: Observable<Item[]>;
- 
+
+  public shiftReqs: TradeShiftRequest[] = [];
+  public tradeShiftReqsCollection: AngularFirestoreCollection<TradeShiftRequest>;
+  public tradeShiftReqs: Observable<TradeShiftRequest[]>; 
   public Item = [
     {id: 0, name: 'whater', price: 1.25, quantity: 10, supplier: 'User', threshold: "1" },
     {id: 1, name: 'cola', price: 5.25, quantity: 7, supplier: 'ahmedComp', threshold: "1"   },
@@ -140,6 +147,19 @@ private cartItemCount = new BehaviorSubject(0);
       })
     );
     this.slots.subscribe(slots => {this.allSlots = slots;});
+
+    // Trade Shift Requests Collection
+    this.tradeShiftReqsCollection = this.afs.collection<TradeShiftRequest>('tradeShiftRequests');
+    this.tradeShiftReqs = this.tradeShiftReqsCollection.snapshotChanges().pipe(
+      map(actions => {
+        return  actions.map(a  =>  {
+          const  data  =  a.payload.doc.data();
+          const  id  =  a.payload.doc.id;
+          return  {  id,  ...data  };
+        });
+      })
+    );
+    this.tradeShiftReqs.subscribe(reqs => {this.shiftReqs = reqs;});
   }
 
   async showToast(message: string, color: string){
@@ -159,6 +179,10 @@ private cartItemCount = new BehaviorSubject(0);
   addSlot(slot: Slot): Promise<DocumentReference> {
     return this.slotsCollection.add(slot);
   }
+
+  addTradeShiftRequest(tradeShiftRequest: TradeShiftRequest): Promise<DocumentReference> {
+    return this.tradeShiftReqsCollection.add(tradeShiftRequest);
+  }
   
   getUser(id: string): Observable<User | undefined>{
     return this.usersCollection.doc<User>(id).valueChanges().pipe(
@@ -170,9 +194,26 @@ private cartItemCount = new BehaviorSubject(0);
     );
   }
 
-  updateUser() {
-    this.usersCollection.doc(this.currentUser.id).update(this.currentUser);
-    this.showToast('Profile updated successfully', 'success');
+  updateCurrentUser(): Promise<any> {
+    return this.usersCollection.doc(this.currentUser.id).update(this.currentUser)
+      .then(() => {
+        this.showToast('Profile updated successfully', 'success');
+      }).catch(err => {
+        this.showToast('Error updating profile', 'danger');
+      }
+    );  
+  }
+
+  updateUser(user: User): Promise<any> {
+    return this.usersCollection.doc(user.id).update(user); 
+  }
+
+  updateTradeShiftRequest(tradeShiftRequest: TradeShiftRequest): Promise<any> {
+    return this.tradeShiftReqsCollection.doc(tradeShiftRequest.id).update(tradeShiftRequest);
+  }
+
+  updateSlot(slot: Slot): Promise<any> {
+    return this.slotsCollection.doc(slot.id).update(slot);
   }
 
   register(user: User, newEmail: string, newPassword: string): Promise<any> {
@@ -205,11 +246,12 @@ private cartItemCount = new BehaviorSubject(0);
         });
         // Navigate to the suitable page according to the user type
         if(this.currentUser.userType == 'owner')
-          this.navCtrl.navigateRoot('/owner');
+          this.navCtrl.navigateForward('/owner');
         else if(this.currentUser.userType == 'employee')
-          this.navCtrl.navigateRoot('/employee');
+          this.navCtrl.navigateForward('/employee');
         else
-          this.navCtrl.navigateRoot('/supplier');
+          this.navCtrl.navigateForward('/supplier');
+        this.showToast('Logged in successfully', 'success');
       })
       .catch(err => {
         if(err.code == 'auth/invalid-email' || err.code == 'auth/user-not-found' || err.code == 'auth/wrong-password')
@@ -220,9 +262,9 @@ private cartItemCount = new BehaviorSubject(0);
   }
 
   logOut(): Promise<void> {
-    this.currentUser = {} as User;
+    this.navCtrl.navigateBack('/');
     //this.currentEmployee = {} as Employee;
-    this.navCtrl.navigateRoot('/');
+    this.currentUser = {} as User;
     return this.afAuth.signOut();
   }
 

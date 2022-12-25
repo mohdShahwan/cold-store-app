@@ -19,7 +19,7 @@ export class ProfilePage implements OnInit {
 
   updateUser() {
     // Check if any field has been touched to enable the update button
-    this.fb.updateUser();
+    this.fb.updateCurrentUser();
   }
 
   async deleteUser() {
@@ -42,6 +42,10 @@ export class ProfilePage implements OnInit {
       ]
     });
     alert.present();
+  }
+
+  logOut() {
+    this.fb.logOut();
   }
 
 }

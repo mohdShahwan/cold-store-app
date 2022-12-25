@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Trade Shifts</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Trade Shifts</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-list-header>Available Shifts for Trading</ion-list-header>
+    <ion-item *ngFor="let s of tradeSlots">
+      <ion-label>
+        <h1> {{s.employee.name}} </h1>
+        <p>{{s.date | date: 'EEEE, dd/MMM'}}</p>
+        {{s.startTime | date: 'h:mm a'}} &mdash; {{s.endTime | date: 'h:mm a'}}
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button (click)="requestTradeSlot(s)">
+          Request Trade
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+  
+  <ion-list>
+    <ion-list-header>Incoming Pending Requests</ion-list-header>
+    <ion-item *ngFor="let r of pendingComingReqs">
+      <ion-label>
+        <h1>{{r.sender.name}} </h1>
+        <p>{{r.slot.date | date: 'EEEE, dd/MMM'}}</p>
+        {{r.slot.startTime | date: 'h:mm a'}} &mdash; {{r.slot.endTime | date: 'h:mm a'}}
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button fill="solid" color="success" (click)="approveTradeRequest(r)">
+          Approve
+        </ion-button>
+        <ion-button fill="solid" color="danger" (click)="rejectTradeRequest(r)">
+          Reject
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>Sent Requests</ion-list-header>
+    <ion-item *ngFor="let r of pendingSentReqs">
+      <ion-label>
+        <h1>{{r.receiver.name}} </h1>
+        <p>{{r.slot.date | date: 'EEEE, dd/MMM'}}</p>
+        {{r.slot.startTime | date: 'h:mm a'}} &mdash; {{r.slot.endTime | date: 'h:mm a'}}
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button fill="solid" color="secondary">
+            {{r.empApprove ? 'Waiting for owner to approve' : 'Waiting for ' + r.receiver.name + ' to approve'}}
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content>
