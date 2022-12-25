@@ -92,17 +92,10 @@ export class FbService {
  
   public Item = [
     {id: 0, name: 'whater', price: 1.25, quantity: 10, supplier: 'User', threshold: "1" },
-    {id: 1, name: 'cola', price: 5.25, quantity: 7, supplier: 'User2', threshold: "1"   },
-    {id: 2, name: 'kitkat', price: 3, quantity: 6, supplier: 'User3', threshold: "1"    }
+    {id: 1, name: 'cola', price: 5.25, quantity: 7, supplier: 'ahmedComp', threshold: "1"   },
+    {id: 2, name: 'kitkat', price: 3, quantity: 6, supplier: 'D&G', threshold: "1"     }
 ];
   
-data: Product[] = [
-  { id: 0, name: 'Pizza Salami', price: 8.99, amount: 0 },
-  { id: 1, name: 'Pizza Classic', price: 5.49, amount: 0 },
-  { id: 2, name: 'Sliced Bread', price: 4.99, amount: 0 },
-  { id: 3, name: 'Salad', price: 6.99, amount: 0 }
-];
-
 private cart = [];
 private cartItemCount = new BehaviorSubject(0);
 
@@ -257,7 +250,7 @@ private cartItemCount = new BehaviorSubject(0);
   }
 // store 
 getProducts() {
-  return this.data;
+  
 }
 
 getCart(){

@@ -17,14 +17,15 @@ import { CartModulePage } from './cart-module/cart-module.page';
   styleUrls: ['./store.page.scss'],
 })
 export class StorePage implements OnInit {
-  
+  filterTerm!: string;
   cart = [];
   items = [];
   cartItemcount = BehaviorSubject<number>;
 
   message = 'This modal example uses the modalController to present and dismiss modals.';
+  animateCSS: any;
 
-  constructor(private fb: FbService, private modalCtrl: ModalController) { }
+  constructor(public fb: FbService, private modalCtrl: ModalController) { }
 
   ngOnInit() {
    // this.items =this.fb.getProudect(); 
@@ -42,5 +43,7 @@ export class StorePage implements OnInit {
       this.message = `Hello, ${data}!`;
     }
   }
+
+  
   
 }
