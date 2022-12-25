@@ -34,7 +34,7 @@ export interface User {
   email: string,
   phone: string,
   userType: string,
-  // employeeSchedule?: string, //Slot[],
+  // employeeSchedule?: Slot[],
   // employeeTradeShiftRequests?: TradeShiftRequest[],
 }
 
