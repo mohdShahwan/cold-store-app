@@ -7,6 +7,7 @@ import { FbService, StoreItem } from 'src/app/fb.service';
   styleUrls: ['./items.page.scss'],
 })
 export class ItemsPage implements OnInit {
+  filterTerm!: string;
 
   constructor(
     public fb: FbService,

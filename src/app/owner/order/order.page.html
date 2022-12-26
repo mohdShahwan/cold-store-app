@@ -6,52 +6,48 @@
 
 <ion-content>
   <h1>Orders</h1>
-<ion-card *ngFor="let p of fb.Item " [(ngModel)]="fb.currentUser.userType">
-  <ion-card-header>
-    <ion-card-title>{{p.supplier}}</ion-card-title>
-  </ion-card-header>
-  <ion-card-content>
-    <ion-grid>
+  <ion-card *ngFor="let p of fb.allItems ">
+    <ion-card-header>
+      <ion-card-title>{{p.supplier.name}}</ion-card-title>
+    </ion-card-header>
 
-      <ion-row>
-        <ion-col>
-          <ion-label>
-            <b> price </b>
-          </ion-label>
-        </ion-col>
-  
-        <ion-col >
-          <ion-label >
-            <b> quantity </b>
-          </ion-label>
-        </ion-col>
-  
-  
-        <ion-col size="2" class="ion-align-self-center">
-          <!--(click)="decreaseCartItem(p)" --> 
-         <ion-button color="medium" fill="clear" >
-           <ion-icon name="remove-circle" slot="icon-only"></ion-icon>
-         </ion-button>
-       </ion-col>
-  
-       <ion-col size=" 1" class="ion-align-self-center">
-       <!--{{ p.amount }} -->  1
-       </ion-col>
-  
-       <ion-col size="2" class="ion-align-self-center">
-         <ion-button color="medium" fill="clear" ><!--(click)="increaseCartItem(p)" --> 
-           <ion-icon name="add-circle" slot="icon-only"></ion-icon>
-         </ion-button>
-       </ion-col>
-  
-  
-      </ion-row>
-    </ion-grid>
-
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label>
+              <b> price </b>
+            </ion-label>
+          </ion-col>
     
-     <ion-button expand="block" (click)="slecte()">Select</ion-button>
-  </ion-card-content>
-</ion-card>
+          <ion-col >
+            <ion-label >
+              <b> quantity </b>
+            </ion-label>
+          </ion-col>
+    
+    
+          <ion-col size="2" class="ion-align-self-center">
+            <!--(click)="decreaseCartItem(p)" --> 
+           <ion-button color="medium" fill="clear" >
+             <ion-icon name="remove-circle" slot="icon-only"></ion-icon>
+           </ion-button>
+         </ion-col>
+    
+         <ion-col size=" 1" class="ion-align-self-center">
+         <!--{{ p.amount }} -->  1
+         </ion-col>
+    
+         <ion-col size="2" class="ion-align-self-center">
+           <ion-button color="medium" fill="clear" ><!--(click)="increaseCartItem(p)" --> 
+             <ion-icon name="add-circle" slot="icon-only"></ion-icon>
+           </ion-button>
+         </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 
 
 
