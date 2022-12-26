@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
+import { FbService } from 'src/app/fb.service';
 
 @Component({
   selector: 'app-order',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrderPage implements OnInit {
 
-  constructor() { }
+  constructor(public alertCtrl:AlertController,public fb: FbService) { }
 
   ngOnInit() {
+  }
+
+  slecte()
+  {
+      alert("Order slected")
   }
 
 }

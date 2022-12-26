@@ -75,6 +75,16 @@ export interface Product {
   amount: number;
 }
 
+export interface Order{
+  id?: string,
+  date: string,
+  items: Item[],
+  quantities: number[],
+  supplier: User,
+  status: string,
+  isFavorite: boolean,
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -309,6 +319,10 @@ getCart(){
 getCartItemCount() {
   return this.cartItemCount;
 }
+
+//getsupplier(supplier: User){
+
+//}
 
 
 /* ============== NOT WORKING!!!!!! ===============
