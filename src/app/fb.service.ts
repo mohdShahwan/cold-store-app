@@ -59,14 +59,27 @@ export interface Slot {
   employee: User,
 }
 
+export interface StoreItem{
+  id?: string,
+  item: Item,
+  quantity: number,
+  threshold: number,
+}
+
+/*
+  Sample Store items
+  { item: allItems[0], quantity: 10, threshold: 5 },
+  { item: allItems[1], quantity: 20, threshold: 2 },
+
+*/
+
 export interface Item{
   id?: string,
   name: string,
   price: number,
-  quantity: number,
   supplier: User,
-  threshold: number,
 }
+
 /* test */
 export interface Product {
   id: number;
@@ -97,11 +110,10 @@ export class FbService {
   public shiftReqs: TradeShiftRequest[] = [];
   public tradeShiftReqsCollection: AngularFirestoreCollection<TradeShiftRequest>;
   public tradeShiftReqs: Observable<TradeShiftRequest[]>; 
-  public Item = [
-    {id: 0, name: 'whater', price: 1.25, quantity: 10, supplier: 'User', threshold: "1" },
-    {id: 1, name: 'cola', price: 5.25, quantity: 7, supplier: 'ahmedComp', threshold: "1"   },
-    {id: 2, name: 'kitkat', price: 3, quantity: 6, supplier: 'D&G', threshold: "1"     }
-];
+
+  public allStoreItems: StoreItem[] = [];
+  public storeItemsCollection: AngularFirestoreCollection<StoreItem>;
+  public storeItems: Observable<StoreItem[]>; 
 
   data: Product[] = [
     { id: 0, name: 'Pizza Salami', price: 8.99, amount: 0 },
@@ -141,7 +153,7 @@ private cartItemCount = new BehaviorSubject(0);
       })
     );
     this.items.subscribe(items => {this.allItems = items;});
-
+    
     // Slots Collection
     this.slotsCollection = this.afs.collection<Slot>('slots');
     this.slots = this.slotsCollection.snapshotChanges().pipe(
@@ -167,6 +179,19 @@ private cartItemCount = new BehaviorSubject(0);
       })
     );
     this.tradeShiftReqs.subscribe(reqs => {this.shiftReqs = reqs;});
+
+    // Store Items Collection
+    this.storeItemsCollection = this.afs.collection<StoreItem>('storeItems');
+    this.storeItems = this.storeItemsCollection.snapshotChanges().pipe(
+      map(actions => {
+        return  actions.map(a  =>  {
+          const  data  =  a.payload.doc.data();
+          const  id  =  a.payload.doc.id;
+          return {  id,  ...data  };
+        });
+      })
+    );
+    this.storeItems.subscribe(items => {this.allStoreItems = items;});
   }
 
   async showToast(message: string, color: string){
@@ -189,6 +214,14 @@ private cartItemCount = new BehaviorSubject(0);
 
   addTradeShiftRequest(tradeShiftRequest: TradeShiftRequest): Promise<DocumentReference> {
     return this.tradeShiftReqsCollection.add(tradeShiftRequest);
+  }
+
+  addItem(item: Item): Promise<DocumentReference> {
+    return this.itemsCollection.add(item);
+  }
+
+  addStoreItem(storeItem: StoreItem): Promise<DocumentReference> {
+    return this.storeItemsCollection.add(storeItem);
   }
   
   getUser(id: string): Observable<User | undefined>{
@@ -221,6 +254,10 @@ private cartItemCount = new BehaviorSubject(0);
 
   updateSlot(slot: Slot): Promise<any> {
     return this.slotsCollection.doc(slot.id).update(slot);
+  }
+
+  updateStoreItem(storeItem: StoreItem): Promise<any> {
+    return this.storeItemsCollection.doc(storeItem.id).update(storeItem);
   }
 
   register(user: User, newEmail: string, newPassword: string): Promise<any> {
@@ -297,19 +334,6 @@ private cartItemCount = new BehaviorSubject(0);
       //   this.showToast(('Error: ' + err.code), 'danger');
       // });
   }
-// store 
-getProducts() {
-  return this.Item
-}
-
-getCart(){
-  return this.cart;
-}
-
-getCartItemCount() {
-  return this.cartItemCount;
-}
-
 
 /* ============== NOT WORKING!!!!!! ===============
 addProduct(item: any) {
