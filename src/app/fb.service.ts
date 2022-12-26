@@ -102,6 +102,13 @@ export class FbService {
     {id: 1, name: 'cola', price: 5.25, quantity: 7, supplier: 'ahmedComp', threshold: "1"   },
     {id: 2, name: 'kitkat', price: 3, quantity: 6, supplier: 'D&G', threshold: "1"     }
 ];
+
+  data: Product[] = [
+    { id: 0, name: 'Pizza Salami', price: 8.99, amount: 0 },
+    { id: 1, name: 'Pizza Classic', price: 5.49, amount: 0 },
+    { id: 2, name: 'Sliced Bread', price: 4.99, amount: 0 },
+    { id: 3, name: 'Salad', price: 6.99, amount: 0 }
+  ];
   
 private cart = [];
 private cartItemCount = new BehaviorSubject(0);
@@ -292,7 +299,7 @@ private cartItemCount = new BehaviorSubject(0);
   }
 // store 
 getProducts() {
-  
+  return this.Item
 }
 
 getCart(){
@@ -303,6 +310,45 @@ getCartItemCount() {
   return this.cartItemCount;
 }
 
+
+/* ============== NOT WORKING!!!!!! ===============
+addProduct(item: any) {
+  let added = false;
+  for (let p of this.cart) {
+    if (p.id === item.id) {
+      p.quantity += 1;
+      added = true;
+      break;
+    }
+  }
+  if (!added) {
+    item.amount = 1;
+    this.cart.push(item);
+  }
+  this.cartItemCount.next(this.cartItemCount.value + 1);
+}
+
+decreaseProduct(item: any) {
+  for (let [index, p] of this.cart.entries()) {
+    if (p.id === item.id) {
+      p.quantity -= 1;
+      if (p.quantity == 0) {
+        this.cart.splice(index, 1);
+      }
+    }
+  }
+  this.cartItemCount.next(this.cartItemCount.value - 1);
+}
+
+removeProduct(item: any) {
+  for (let [index, p] of this.cart.entries()) {
+    if (p.id === item.id) {
+      this.cartItemCount.next(this.cartItemCount.value - p.quantity);
+      this.cart.splice(index, 1);
+    }
+  }
+}
+*/
 
 
 }

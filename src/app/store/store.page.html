@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>store</ion-title>
-    <ion-select placeholder="Select fruit" slot="end" >
+    <ion-select placeholder="Select supplier" slot="end" [(ngModel)]="filterTerm" >
       <ion-select-option  *ngFor="let p of fb.Item ">
         {{p.supplier}}
       </ion-select-option>
@@ -53,7 +53,7 @@
 
      <ion-fab slot="fixed" vertical="bottom" horizontal="end">
       <ion-fab-button (click)="openModal()">
-        <div>{{cartItemcount |async }</div>
+        <div>3 <!--{{fb.cartItemcount |async }}--></div>
         <ion-icon name="cart"></ion-icon>
       </ion-fab-button>
     </ion-fab>
