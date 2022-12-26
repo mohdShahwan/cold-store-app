@@ -256,6 +256,10 @@ private cartItemCount = new BehaviorSubject(0);
     return this.slotsCollection.doc(slot.id).update(slot);
   }
 
+  updateStoreItem(storeItem: StoreItem): Promise<any> {
+    return this.storeItemsCollection.doc(storeItem.id).update(storeItem);
+  }
+
   register(user: User, newEmail: string, newPassword: string): Promise<any> {
     return this.afAuth.createUserWithEmailAndPassword(newEmail, newPassword)
       .then(res => {

@@ -29,6 +29,30 @@ export class ItemsPage implements OnInit {
     } else {
       this.selectedItems.push(sItem);
     }
-    console.log(this.selectedItems);
+  }
+
+  currentStoreItem: StoreItem = {} as StoreItem;
+  orderModal: boolean = false;
+  openOrderModal(sItem: StoreItem){
+    this.currentStoreItem = sItem;
+    this.orderModal = true;
+  }
+  closeOrderModal(){
+    this.orderModal = false;
+    this.currentStoreItem = {} as StoreItem;
+  }
+
+  newThreshold: number = 0;
+  updateSlots(){
+    for(let sItem of this.selectedItems){
+      sItem.threshold = this.newThreshold;
+      this.fb.updateStoreItem(sItem);
+    }
+  }
+
+  orderQuantity: number | undefined;
+  orderPrice: number | undefined;
+  orderMore(){
+    
   }
 }
