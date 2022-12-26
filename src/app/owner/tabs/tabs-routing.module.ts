@@ -24,10 +24,13 @@ const routes: Routes = [
         loadChildren: () => import('../trade-requests/trade-requests.module').then(m => m.TradeRequestsPageModule)
       },
       {
-        path: 'order',
-        loadChildren: () => import('../order/order.module').then( m => m.OrderPageModule)
+        path: 'orders',
+        loadChildren: () => import('../orders/orders.module').then(m => m.OrdersPageModule)
       },
-    
+      {
+        path: 'items',
+        loadChildren: () => import('../items/items.module').then(m => m.ItemsPageModule)
+      },
       {
         path: '',
         redirectTo: 'owner/tabs',
