@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { FbService } from '../fb.service';
-import { CartModulePage } from './cart-module/cart-module.page';
 
 /*export interface Product {
   id:     number;
@@ -29,19 +28,6 @@ export class StorePage implements OnInit {
 
   ngOnInit() {
    // this.items =this.fb.getProudect(); 
-  }
-
-  async openModal() {
-    const modal = await this.modalCtrl.create({
-      component: CartModulePage,
-    });
-    modal.present();
-
-    const { data, role } = await modal.onWillDismiss();
-
-    if (role === 'confirm') {
-      this.message = `Hello, ${data}!`;
-    }
   }
 
   
