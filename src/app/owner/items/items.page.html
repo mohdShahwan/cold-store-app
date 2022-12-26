@@ -12,7 +12,8 @@
   </ion-header>
 
   <ion-list>
-    <ion-item *ngFor="let sItem of fb.allStoreItems" [color]="sItem.quantity<sItem.threshold? 'danger' : ''">
+    <ion-item *ngFor="let sItem of fb.allStoreItems" [color]="sItem.quantity<sItem.threshold? 'danger' : ''" (click)="editStoreItem(sItem)">
+      <ion-checkbox slot="start" [checked]="checkItem(sItem)" (ionChange)="toggleItem(sItem)"></ion-checkbox>
       <ion-label>
         <h1>{{sItem.item.name}}</h1>
         <h3>{{sItem.item.price}}</h3>
@@ -24,4 +25,12 @@
       </ion-label>
     </ion-item>
   </ion-list>
+
+  <div *ngIf="selectedItems.length>0">
+    <ion-item>
+      <ion-label class="ion-text-wrap">Update selected items threshold</ion-label><br>
+      <ion-input type="number"></ion-input>
+    </ion-item>
+    <ion-button exapnd="block">Update</ion-button>
+  </div>
 </ion-content>
