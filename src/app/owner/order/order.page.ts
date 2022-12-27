@@ -19,6 +19,17 @@ export class OrderPage implements OnInit {
       alert("Order slected")
   }
 
+  getStatusColor(color: string){
+    switch(color){
+      case 'pending':
+        return 'warning';
+      case 'delivered':
+        return 'success';
+      default:
+        return 'primary';
+    }
+  }
+
   exportModal: boolean = false;
   importModal: boolean = false;
   exportJSON: string = "";

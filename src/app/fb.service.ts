@@ -76,26 +76,20 @@ export interface StoreItem{
 export interface Item{
   id?: string,
   name: string,
+  itemsPerCartoon: number,
   price: number,
   supplier: User,
-}
-
-/* test */
-export interface Product {
-  id: number;
-  name: string;
-  price: number;
-  amount: number;
+  noOfCartoons?: number,
 }
 
 export interface Order{
   id?: string,
   date: string,
   items: Item[],
-  quantities: number[],
-  supplier: User,
+  total: number,
   status: string,
   isFavorite: boolean,
+  orderTimes: number,
 }
 
 @Injectable({
@@ -126,12 +120,9 @@ export class FbService {
   public storeItemsCollection: AngularFirestoreCollection<StoreItem>;
   public storeItems: Observable<StoreItem[]>; 
 
-  data: Product[] = [
-    { id: 0, name: 'Pizza Salami', price: 8.99, amount: 0 },
-    { id: 1, name: 'Pizza Classic', price: 5.49, amount: 0 },
-    { id: 2, name: 'Sliced Bread', price: 4.99, amount: 0 },
-    { id: 3, name: 'Salad', price: 6.99, amount: 0 }
-  ];
+  public allOrders: Order[] = [];
+  public ordersCollection: AngularFirestoreCollection<Order>;
+  public orders: Observable<Order[]>; 
   
 private cart = [];
 private cartItemCount = new BehaviorSubject(0);
@@ -205,6 +196,19 @@ private cartItemCount = new BehaviorSubject(0);
       })
     );
     this.storeItems.subscribe(items => {this.allStoreItems = items;});
+
+    // Orders Collection
+    this.ordersCollection = this.afs.collection<Order>('orders');
+    this.orders = this.ordersCollection.snapshotChanges().pipe(
+      map(actions => {
+        return  actions.map(a  =>  {
+          const  data  =  a.payload.doc.data();
+          const  id  =  a.payload.doc.id;
+          return {  id,  ...data  };
+        });
+      })
+    );
+    this.orders.subscribe(order => this.allOrders = order);
   }
 
   async showToast(message: string, color: string){
@@ -235,6 +239,10 @@ private cartItemCount = new BehaviorSubject(0);
 
   addStoreItem(storeItem: StoreItem): Promise<DocumentReference> {
     return this.storeItemsCollection.add(storeItem);
+  }
+
+  addOrder(order: Order): Promise<DocumentReference> {
+    return this.ordersCollection.add(order);
   }
   
   getUser(id: string): Observable<User | undefined>{
