@@ -281,6 +281,10 @@ private cartItemCount = new BehaviorSubject(0);
     return this.storeItemsCollection.doc(storeItem.id).update(storeItem);
   }
 
+  updateOrder(order: Order): Promise<any> {
+    return this.ordersCollection.doc(order.id).update(order);
+  }
+
   register(user: User, newEmail: string, newPassword: string): Promise<any> {
     return this.afAuth.createUserWithEmailAndPassword(newEmail, newPassword)
       .then(res => {

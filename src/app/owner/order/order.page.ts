@@ -11,12 +11,10 @@ export class OrderPage implements OnInit {
 
   constructor(public alertCtrl:AlertController,public fb: FbService) { }
 
+  showingOrders: Order[] = [];
+  favorites: string = 'all';
   ngOnInit() {
-  }
-
-  slecte()
-  {
-      alert("Order slected")
+    this.updateOrders();
   }
 
   getStatusColor(color: string){
@@ -28,6 +26,24 @@ export class OrderPage implements OnInit {
       default:
         return 'primary';
     }
+  }
+
+  star: string = 'star-outline';
+  toggleFavorite(order: Order){
+    order.isFavorite = !order.isFavorite;
+    this.fb.updateOrder(order);
+  }
+
+  updateOrders(){
+    this.fb.orders.subscribe(orders => {
+      this.showingOrders = orders
+      .filter(order=>{
+        if(this.favorites=='favorites')
+          return order.isFavorite;
+        else
+          return true;
+      });
+      });
   }
 
   exportModal: boolean = false;
