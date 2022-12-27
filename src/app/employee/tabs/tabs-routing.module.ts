@@ -21,14 +21,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'employee/tabs/',
+        redirectTo: '/employee/schedule',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: 'employee/tabs/',
+    redirectTo: '/employee/schedule',
     pathMatch: 'full'
   }
 ];

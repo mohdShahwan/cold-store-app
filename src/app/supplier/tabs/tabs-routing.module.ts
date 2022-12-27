@@ -13,14 +13,16 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'supplier/tabs/',
+        // supplier/orders
+        redirectTo: 'supplier',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: 'supplier/tabs/',
+    // supplier/orders
+    redirectTo: 'supplier',
     pathMatch: 'full'
   }
 ];

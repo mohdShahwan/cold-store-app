@@ -12,6 +12,10 @@ const routes: Routes = [
         loadChildren: () => import('../../profile/profile.module').then(m => m.ProfilePageModule)
       },
       {
+        path: 'store',
+        loadChildren: () => import('../../profile/profile.module').then(m => m.ProfilePageModule)
+      },
+      {
         path: 'employees',
         loadChildren: () => import('../employees/employees.module').then(m => m.EmployeesPageModule)
       },
@@ -33,14 +37,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'owner/tabs',
+        redirectTo: '/owner/store',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: 'owner/tabs',
+    redirectTo: '/owner/store',
     pathMatch: 'full'
   }
 ];
