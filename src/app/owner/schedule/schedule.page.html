@@ -26,24 +26,27 @@
     </ion-toolbar> -->
   </ion-header>
 
-  <ion-list>
-    <!-- [hidden]="groups.length === 0" -->
-    <ion-item-group >
-      <!-- *ngFor="let group of groups" -->
-      <ion-item-divider sticky>
-      </ion-item-divider>
-        <ion-item *ngFor="let slot of shownSlots">
-          <ion-label>
-            <h1>{{slot.employee.name}}</h1>
-            {{slot.date | date: 'EEEE, dd/MMM'}}
-            <p>
-              {{slot.startTime | date: 'h:mm a'}} &mdash; {{slot.endTime | date: 'h:mm a'}}
-            </p>
-          </ion-label>
-        </ion-item>
+  <ion-card *ngFor="let slot of shownSlots"  >
+        <ion-card-header> 
+              <ion-card-title color="secondary" >{{slot.employee.name}}</ion-card-title> 
+        </ion-card-header>
+
+    <ion-card-content >
       
-    </ion-item-group>
-  </ion-list>
+      <ion-grid>
+
+            <ion-row>
+              <ion-col class="day-date"> {{slot.date | date: 'EEEE, dd/MMM'}} </ion-col>
+            </ion-row>
+
+            <ion-row >
+              <ion-col class="time_FromTo"> {{slot.startTime | date: 'h:mm a'}} &mdash; {{slot.endTime | date: 'h:mm a'}}</ion-col>
+            </ion-row>
+
+      </ion-grid>
+        
+    </ion-card-content>
+  </ion-card>
 
   <ion-list-header [hidden]="shownSlots.length > 0">
     No Slots Found
