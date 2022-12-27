@@ -21,6 +21,8 @@ export class OrderPage implements OnInit {
 
   orderAgain(order: Order){
     order.orderTimes++;
+    this.fb.updateOrder(order);
+    order.id = undefined;
     const alert = this.alertCtrl.create({
       header: 'Order Again',
       message: 'Are you sure you want to order this item again?',
