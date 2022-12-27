@@ -38,9 +38,6 @@ export class OrderPage implements OnInit {
         {
           text: 'Cancel',
           role: 'cancel',
-          handler: () => {
-            order.orderTimes--;
-          }
         }
       ]
     }).then(alert => alert.present());
