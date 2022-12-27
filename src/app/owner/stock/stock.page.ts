@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FbService, StoreItem } from 'src/app/fb.service';
 
 @Component({
-  selector: 'app-items',
-  templateUrl: './items.page.html',
-  styleUrls: ['./items.page.scss'],
+  selector: 'app-stock',
+  templateUrl: './stock.page.html',
+  styleUrls: ['./stock.page.scss'],
 })
-export class ItemsPage implements OnInit {
+export class StockPage implements OnInit {
   filterTerm!: string;
 
   constructor(
@@ -14,6 +14,11 @@ export class ItemsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    
+  }
+  
+  ngAfterViewInit(){
+
   }
 
   editStoreItem(item: StoreItem) {
@@ -60,4 +65,5 @@ export class ItemsPage implements OnInit {
   orderMore(){
 
   }
+
 }

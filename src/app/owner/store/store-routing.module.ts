@@ -17,15 +17,19 @@ const routes: Routes = [
         loadChildren: () => import('../order/order.module').then( m => m.OrderPageModule)
       },
       {
+        path: 'stock',
+        loadChildren: () => import('../stock/stock.module').then( m => m.StockPageModule)
+      },
+      {
         path: '',
-        redirectTo: 'items',
+        redirectTo: 'stock',
         pathMatch: 'full'
       },
     ]
   },
   {
     path: '',
-    redirectTo: 'items',
+    redirectTo: 'stock',
     pathMatch: 'full'
   },
 ];

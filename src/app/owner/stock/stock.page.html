@@ -1,18 +1,18 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Browse Items</ion-title>
+    <ion-title>Stock</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Browse Items</ion-title>
+      <ion-title size="large">Stock</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-item>
-    <ion-searchbar placeholder="Search..." [(ngModel)]="filterTerm" animated></ion-searchbar>
+    <ion-searchbar placeholder="Search by item name or supplier" [(ngModel)]="filterTerm" animated></ion-searchbar>
   </ion-item>
   <ion-list>
     
@@ -33,15 +33,9 @@
     </ion-item>
   </ion-list>
 
-  <!-- Sticky Update -->
-  <div *ngIf="selectedItems.length>0">
-    <ion-item>
-      <ion-label class="ion-text-wrap">Update threshold for the selected items</ion-label><br>
-      <ion-input type="number" [(ngModel)]="newThreshold"></ion-input>
-    </ion-item>
-    <ion-button exapnd="block" (click)="updateSlots()">Update</ion-button>
-  </div>
 
+
+  
   <ion-modal [isOpen]="orderModal">
     <ng-template>
       <ion-header>
@@ -66,3 +60,14 @@
   </ion-modal>
   
 </ion-content>
+
+<!-- Sticky Update -->
+<ion-footer *ngIf="selectedItems.length>0">
+    <ion-item>
+      <ion-label class="ion-text-wrap">Update threshold for the selected items</ion-label><br>
+      <ion-input type="number" [(ngModel)]="newThreshold"></ion-input>
+      <ion-buttons slot="end">
+        <ion-button fill="solid" exapnd="block" (click)="updateSlots()">Update</ion-button>
+      </ion-buttons>
+    </ion-item>
+</ion-footer>

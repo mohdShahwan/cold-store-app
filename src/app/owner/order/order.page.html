@@ -51,7 +51,7 @@
          </ion-col>
     
          <ion-col size=" 1" class="ion-align-self-center">
-         <!--{{ p.amount }} -->  1
+         <!--{{ p.amount }} -->
          </ion-col>
     
          <ion-col size="2" class="ion-align-self-center">
@@ -65,45 +65,51 @@
     </ion-card-content>
   </ion-card>
 
-    <!-- Export JSON Modal -->
-    <ion-modal [isOpen]="exportModal">
-      <ng-template>
-        <ion-header>
-          <ion-toolbar>
-            <ion-title>Export Items as JSON</ion-title>
-            <ion-buttons slot="end">
-              <ion-button (click)="closeExportModal()">Close</ion-button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding">
-          
-            <ion-item>
-              <ion-textarea auto-grow="true" [(ngModel)]="exportJSON"></ion-textarea>
-            </ion-item>
-            
-          </ion-content>
-      </ng-template>
-    </ion-modal>
-  
-    <!-- Import JSON Modal -->
-    <ion-modal [isOpen]="importModal">
-      <ng-template>
-        <ion-header>
-          <ion-toolbar>
-            <ion-title>Import Items as JSON</ion-title>
-            <ion-buttons slot="end">
-              <ion-button (click)="closeImportModal()">Close</ion-button>
-            </ion-buttons>
-          </ion-toolbar>
-        </ion-header>
-        <ion-content class="ion-padding">
-            
-          <ion-label>Enter JSON format</ion-label>
-          <ion-textarea auto-grow="true" [(ngModel)]="importJSON"></ion-textarea>
-          <ion-button expand="block" (click)="importItems()">Import</ion-button>
-          </ion-content>
-      </ng-template>
-    </ion-modal>
+  <!-- New Order Button -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openOrderModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
+  <!-- Export JSON Modal -->
+  <ion-modal [isOpen]="exportModal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Export Items as JSON</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeExportModal()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        
+          <ion-item>
+            <ion-textarea auto-grow="true" [(ngModel)]="exportJSON"></ion-textarea>
+          </ion-item>
+          
+        </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Import JSON Modal -->
+  <ion-modal [isOpen]="importModal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Import Items as JSON</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeImportModal()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+          
+        <ion-label>Enter JSON format</ion-label>
+        <ion-textarea auto-grow="true" [(ngModel)]="importJSON"></ion-textarea>
+        <ion-button expand="block" (click)="importItems()">Import</ion-button>
+        </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

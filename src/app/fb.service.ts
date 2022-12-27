@@ -105,6 +105,7 @@ export interface Order{
 export class FbService {
   public allUsers: User[] = [];
   public employees: User[] = [];
+  public suppliers: User[] = [];
   public currentUser = {} as User;
   public usersCollection: AngularFirestoreCollection<User>;
   public users: Observable<User[]>;
@@ -150,6 +151,8 @@ private cartItemCount = new BehaviorSubject(0);
     this.users.subscribe(users => {this.allUsers = users;});
     // Employees from users collection
     this.users.subscribe(users => {this.employees = users.filter(user => user.userType == 'employee');});
+    // Suppliers from users collection
+    this.users.subscribe(users => {this.suppliers = users.filter(user => user.userType == 'supplier');});
 
     // Items Collection
     this.itemsCollection = this.afs.collection<Item>('items');

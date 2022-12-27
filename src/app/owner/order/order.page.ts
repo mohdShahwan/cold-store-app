@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { FbService } from 'src/app/fb.service';
+import { FbService, Order } from 'src/app/fb.service';
 
 @Component({
   selector: 'app-order',
@@ -49,6 +49,17 @@ export class OrderPage implements OnInit {
   closeImportModal(){
     this.importModal = false;
     this.importJSON = '';
+  }
+
+  newOrder: Order = {} as Order;
+  orderModal: boolean = false;
+  openOrderModal(){
+
+  }
+  addOrder(){
+  }
+  closeOrderModal(){
+
   }
 
 }
