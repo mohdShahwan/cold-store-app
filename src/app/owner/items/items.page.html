@@ -1,21 +1,13 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Items in Store</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="openImportModal()">
-        <ion-icon name="cloud-upload-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="openExportModal()">
-        <ion-icon name="download-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Items in Store</ion-title>
+      <ion-title size="large">Items in Stock</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -72,44 +64,5 @@
       </ion-content>
     </ng-template>
   </ion-modal>
-
-  <ion-modal [isOpen]="exportModal">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Export Items as JSON</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="closeExportModal()">Close</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        
-          <ion-item>
-            <ion-textarea auto-grow="true" [(ngModel)]="exportJSON"></ion-textarea>
-          </ion-item>
-          
-        </ion-content>
-    </ng-template>
-  </ion-modal>
-
-  <ion-modal [isOpen]="importModal">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Import Items as JSON</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="closeImportModal()">Close</ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-          
-        <ion-label>Enter JSON format</ion-label>
-        <ion-textarea auto-grow="true" [(ngModel)]="importJSON"></ion-textarea>
-        <ion-button expand="block" (click)="importItems()">Import</ion-button>
-        </ion-content>
-    </ng-template>
-  </ion-modal>
-
+  
 </ion-content>

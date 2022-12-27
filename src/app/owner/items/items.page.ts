@@ -1,6 +1,16 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FbService, StoreItem } from 'src/app/fb.service';
+/*
+,{"id":"CjzuGwZ3QDnWw1dzOCuO","price":0.1,"supplier":{"phone":"36983214","id":"KPm6Wj0aztO4VGrfDuNs","userType":"supplier","name":"Supplier ","email":"sup@gmail.com"},"name":"Bread"},{"id":"JiOlUwJXTXomU8jjfBwl","price":3,"supplier":{"userType":"supplier","email":"sup@gmail.com","phone":"36983214","name":"Supplier ","id":"KPm6Wj0aztO4VGrfDuNs"},"name":"KitKat"},{"id":"VXjDePaoSEmgkkkPhKiy","price":0.4,"supplier":{"id":"KPm6Wj0aztO4VGrfDuNs","userType":"supplier","email":"sup@gmail.com","name":"Supplier ","phone":"36983214"},"name":"Biscuit"},{"id":"hhq91av9aUUYIG4KtX3u","name":"Water","supplier":{"userType":"supplier","id":"KPm6Wj0aztO4VGrfDuNs","phone":"36983214","name":"Supplier ","email":"sup@gmail.com"},"price":1.25}]
 
+[
+  {"name":"item1","price":5.25,"supplier":{"userType":"supplier","email":"sup@gmail.com","phone":"36983214","name":"Supplier ","id":"KPm6Wj0aztO4VGrfDuNs"}},
+  {"name":"item2","price":5.25,"supplier":{"userType":"supplier","email":"sup@gmail.com","phone":"36983214","name":"Supplier ","id":"KPm6Wj0aztO4VGrfDuNs"}},
+  {"name":"item3","price":5.25,"supplier":{"userType":"supplier","email":"sup@gmail.com","phone":"36983214","name":"Supplier ","id":"KPm6Wj0aztO4VGrfDuNs"}},
+  {"name":"item4","price":5.25,"supplier":{"userType":"supplier","email":"sup@gmail.com","phone":"36983214","name":"Supplier ","id":"KPm6Wj0aztO4VGrfDuNs"}},
+  {"name":"item5","price":5.25,"supplier":{"userType":"supplier","email":"sup@gmail.com","phone":"36983214","name":"Supplier ","id":"KPm6Wj0aztO4VGrfDuNs"}},
+}
+*/
 @Component({
   selector: 'app-items',
   templateUrl: './items.page.html',
@@ -63,36 +73,5 @@ export class ItemsPage implements OnInit {
   orderPrice: number | undefined;
   orderMore(){
 
-  }
-
-  exportModal: boolean = false;
-  importModal: boolean = false;
-  exportJSON: string = "";
-  importJSON: string = "";
-  openExportModal(){
-    this.exportModal = true;
-    this.exportJSON = JSON.stringify(this.fb.allItems);
-  }
-  openImportModal(){
-    this.importModal = true;
-  }
-  importItems(){
-    try{
-      let newItems = JSON.parse(this.importJSON);
-      for(let item of newItems)
-        this.fb.addItem(item);
-      this.closeImportModal();
-      this.fb.showToast("Items imported successfully", 'success');
-    }catch(e){
-      this.fb.showToast("Invalid JSON", 'danger');
-    }
-  }
-  closeExportModal(){
-    this.exportModal = false;
-    this.exportJSON = '';
-  }
-  closeImportModal(){
-    this.importModal = false;
-    this.importJSON = '';
   }
 }
