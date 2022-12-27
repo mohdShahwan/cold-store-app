@@ -62,6 +62,37 @@ export class ItemsPage implements OnInit {
   orderQuantity: number | undefined;
   orderPrice: number | undefined;
   orderMore(){
-    
+
+  }
+
+  exportModal: boolean = false;
+  importModal: boolean = false;
+  exportJSON: string = "";
+  importJSON: string = "";
+  openExportModal(){
+    this.exportModal = true;
+    this.exportJSON = JSON.stringify(this.fb.allItems);
+  }
+  openImportModal(){
+    this.importModal = true;
+  }
+  importItems(){
+    try{
+      let newItems = JSON.parse(this.importJSON);
+      for(let item of newItems)
+        this.fb.addItem(item);
+      this.closeImportModal();
+      this.fb.showToast("Items imported successfully", 'success');
+    }catch(e){
+      this.fb.showToast("Invalid JSON", 'danger');
+    }
+  }
+  closeExportModal(){
+    this.exportModal = false;
+    this.exportJSON = '';
+  }
+  closeImportModal(){
+    this.importModal = false;
+    this.importJSON = '';
   }
 }
