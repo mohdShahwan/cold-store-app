@@ -12,9 +12,12 @@ const routes: Routes = [
         loadChildren: () => import('../../profile/profile.module').then(m => m.ProfilePageModule)
       },
       {
+        path: 'orders',
+        loadChildren: () => import('../orders/orders.module').then(m => m.OrdersPageModule)
+      },
+      {
         path: '',
-        // supplier/orders
-        redirectTo: 'supplier',
+        redirectTo: 'orders',
         pathMatch: 'full'
       }
     ]
@@ -22,7 +25,7 @@ const routes: Routes = [
   {
     path: '',
     // supplier/orders
-    redirectTo: 'supplier',
+    redirectTo: 'orders',
     pathMatch: 'full'
   }
 ];
