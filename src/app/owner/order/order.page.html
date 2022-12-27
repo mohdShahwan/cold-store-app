@@ -1,6 +1,13 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Orders</ion-title>
+    <ion-segment [(ngModel)]="favorites" (ionChange)="updateOrders()">
+      <ion-segment-button value="all">
+        All
+      </ion-segment-button>
+      <ion-segment-button value="favorites">
+        Favorites
+      </ion-segment-button>
+    </ion-segment>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -22,14 +29,15 @@
     </ion-toolbar>
   </ion-header>
   
-  <ion-card *ngFor="let order of fb.allOrders">
+  <ion-card *ngFor="let order of showingOrders">
     <ion-card-header>
-      <ion-card-title>{{order.items[0].supplier.name}}</ion-card-title>
+      <ion-card-title>
+        <ion-icon color="primary" [name]="order.isFavorite? 'star' : 'star-outline'"></ion-icon>
+        {{order.items[0].supplier.name}}
+      </ion-card-title>
     </ion-card-header>
 
-    <ion-card-content>
-      
-
+    <ion-card-content>      
       <ion-grid>
         <ion-row>
           <ion-col>
@@ -53,7 +61,7 @@
         </ion-row>
         <ion-row>
   
-          <ion-col class="ion-align-self-center">
+        <ion-col class="ion-align-self-center">
             <ion-row *ngFor="let item of order.items">
               {{item.name}}
             </ion-row>
@@ -74,7 +82,21 @@
         </ion-row>
       </ion-grid>
 
-   
+      <ion-buttons>
+        <ion-button fill="solid" expand="block" (click)="showOrderInfo(order)">
+          <ion-icon name="eye-outline"></ion-icon>
+          View Order Info
+        </ion-button>
+        <ion-button fill="solid" (click)="toggleFavorite(order)">
+          <span *ngIf="order.isFavorite">Remove from favorites</span>
+          <span *ngIf="!order.isFavorite">Add to favorites</span>
+        </ion-button>
+      </ion-buttons>
+      <ion-button (click)="orderAgain(order)" expand="block" *ngIf="favorites=='favorites'">
+        <ion-icon name="repeat-outline"></ion-icon>
+        Order Again
+      </ion-button>
+
     </ion-card-content>
   </ion-card>
 
@@ -84,6 +106,50 @@
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  <!-- Order Modal -->
+  <ion-modal [isOpen]="orderModal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Order details</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeOrderInfo()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-list>
+          <ion-item>
+            <ion-label>Supplier: {{currentOrder.items[0].supplier.name}} </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Date: {{currentOrder.date | date: 'dd/MM/yyyy'}} </ion-label>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label>Items: <span *ngFor="let item of currentOrder.items"> {{item.name}}</span></ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Total Price: {{currentOrder.total | currency: 'BHD '}} </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Status: </ion-label>
+            <ion-label [color]="getStatusColor(currentOrder.status)">
+              {{currentOrder.status}}
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>Number of times ordered: {{currentOrder.orderTimes}} </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 
   <!-- Export JSON Modal -->
   <ion-modal [isOpen]="exportModal">

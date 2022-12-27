@@ -11,12 +11,50 @@ export class OrderPage implements OnInit {
 
   constructor(public alertCtrl:AlertController,public fb: FbService) { }
 
+  showingOrders: Order[] = [];
+  favorites: string = 'all';
   ngOnInit() {
+    this.updateOrders();
   }
 
-  slecte()
-  {
-      alert("Order slected")
+  orderAgain(order: Order){
+    order.orderTimes++;
+    const alert = this.alertCtrl.create({
+      header: 'Order Again',
+      message: 'Are you sure you want to order this item again?',
+      buttons: [
+        {
+          text: 'Order Again',
+          handler: () => {
+            this.fb.addOrder(order)
+            .then(() => {
+              this.fb.showToast('Order placed successfully', 'success');
+            })
+            .catch(err => {
+              this.fb.showToast('Error placing order', 'danger');
+            });
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            order.orderTimes--;
+          }
+        }
+      ]
+    }).then(alert => alert.present());
+  }
+
+  orderModal: boolean = false;
+  currentOrder: Order = {} as Order;
+  showOrderInfo(order: Order){
+    this.orderModal = true;
+    this.currentOrder = order;
+  }
+  closeOrderInfo(){
+    this.orderModal = false;
+    this.currentOrder = {} as Order;
   }
 
   getStatusColor(color: string){
@@ -28,6 +66,24 @@ export class OrderPage implements OnInit {
       default:
         return 'primary';
     }
+  }
+
+  star: string = 'star-outline';
+  toggleFavorite(order: Order){
+    order.isFavorite = !order.isFavorite;
+    this.fb.updateOrder(order);
+  }
+
+  updateOrders(){
+    this.fb.orders.subscribe(orders => {
+      this.showingOrders = orders
+      .filter(order=>{
+        if(this.favorites=='favorites')
+          return order.isFavorite;
+        else
+          return true;
+      });
+      });
   }
 
   exportModal: boolean = false;
@@ -63,7 +119,6 @@ export class OrderPage implements OnInit {
   }
 
   newOrder: Order = {} as Order;
-  orderModal: boolean = false;
   openOrderModal(){
 
   }
