@@ -1,9 +1,139 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Orders</ion-title>
+    <ion-segment [(ngModel)]="seg">
+      <ion-segment-button value="pending">
+        <ion-label>Pending</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="delivered">
+        <ion-label>Delivered</ion-label>
+      </ion-segment-button>
+    </ion-segment>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Orders</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <div *ngIf="seg=='pending'">
+  <ion-card *ngFor="let order of pendingOrders">
+    <ion-card-header>
+      <ion-card-title>
+        {{order.date | date: 'medium'}}
+      </ion-card-title>
+    </ion-card-header>
 
+    <ion-card-content>      
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label>
+              <b> Items </b>
+            </ion-label>
+          </ion-col>
+    
+          <ion-col >
+            <ion-label >
+              <b> Total </b>
+            </ion-label>
+          </ion-col>
+
+          <ion-col >
+            <ion-label >
+              <b> Status </b>
+            </ion-label>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+  
+        <ion-col class="ion-align-self-center">
+            <ion-row *ngFor="let item of order.items">
+              {{item.name}}
+            </ion-row>
+         </ion-col>
+    
+         <ion-col class="ion-align-self-center">
+          <ion-label>
+            {{order.total}}
+          </ion-label>
+         </ion-col>
+
+         <ion-col class="ion-align-self-center">
+          <ion-label [color]="getStatusColor(order.status)">
+            {{order.status}}
+          </ion-label>
+         </ion-col>
+
+        </ion-row>
+      </ion-grid>
+
+      <ion-button (click)="confirmDelivery(order)" color="success" expand="block">
+        <ion-icon name="repeat-outline"></ion-icon>
+        Mark as Delivered
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+  </div>
+
+  <div *ngIf="seg=='delivered'">
+  <ion-card *ngFor="let order of ordersHistory">
+    <ion-card-header>
+      <ion-card-title>
+        {{order.date | date: 'medium'}}
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>      
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-label>
+              <b> Items </b>
+            </ion-label>
+          </ion-col>
+    
+          <ion-col >
+            <ion-label >
+              <b> Total </b>
+            </ion-label>
+          </ion-col>
+
+          <ion-col >
+            <ion-label >
+              <b> Status </b>
+            </ion-label>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+  
+        <ion-col class="ion-align-self-center">
+            <ion-row *ngFor="let item of order.items">
+              {{item.name}}
+            </ion-row>
+         </ion-col>
+    
+         <ion-col class="ion-align-self-center">
+          <ion-label>
+            {{order.total}}
+          </ion-label>
+         </ion-col>
+
+         <ion-col class="ion-align-self-center">
+          <ion-label [color]="getStatusColor(order.status)">
+            {{order.status}}
+          </ion-label>
+         </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+  </div>
 </ion-content>
