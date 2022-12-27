@@ -1,47 +1,74 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>order</ion-title>
+    <ion-title>Orders</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="openImportModal()">
+        <ion-icon name="cloud-upload-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="openExportModal()">
+        <ion-icon name="download-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <h1>Orders</h1>
-  <ion-card *ngFor="let p of fb.allItems ">
+<ion-content >
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Orders</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-card *ngFor="let order of fb.allOrders">
     <ion-card-header>
-      <ion-card-title>{{p.supplier.name}}</ion-card-title>
+      <ion-card-title>{{order.items[0].supplier.name}}</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
       
 
       <ion-grid>
-        <ion-row class="ion-align-items-center">
-          <ion-col size="8">
-            <ion-label color="secondary">
-              <b> Price {{p.price | currency:'BHD' }}</b>
+        <ion-row>
+          <ion-col>
+            <ion-label>
+              <b> Items </b>
             </ion-label>
           </ion-col>
     
           <ion-col >
-           <b>Quantity</b>
+            <ion-label >
+              <b> Total </b>
+            </ion-label>
           </ion-col>
-    
-    
-          <ion-col size="2" class="ion-align-self-center">
-            <!--(click)="decreaseCartItem(p)" --> 
-           <ion-button color="medium" fill="clear" >
-             <ion-icon name="remove-circle" slot="icon-only"></ion-icon>
-           </ion-button>
+
+          <ion-col >
+            <ion-label >
+              <b> Status </b>
+            </ion-label>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+  
+          <ion-col class="ion-align-self-center">
+            <ion-row *ngFor="let item of order.items">
+              {{item.name}}
+            </ion-row>
          </ion-col>
     
-         <ion-col size=" 1" class="ion-align-self-center">
-         <!--{{ p.amount }} -->  <b>1</b>
+         <ion-col class="ion-align-self-center">
+          <ion-label>
+            {{order.total}}
+          </ion-label>
          </ion-col>
-    
-         <ion-col size="2" class="ion-align-self-center">
-           <ion-button color="medium" fill="clear" ><!--(click)="increaseCartItem(p)" --> 
-             <ion-icon name="add-circle" slot="icon-only"></ion-icon>
-           </ion-button>
+
+         <ion-col class="ion-align-self-center">
+          <ion-label [color]="getStatusColor(order.status)">
+            {{order.status}}
+          </ion-label>
          </ion-col>
 
         </ion-row>
@@ -51,6 +78,51 @@
     </ion-card-content>
   </ion-card>
 
+  <!-- New Order Button -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openOrderModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
+  <!-- Export JSON Modal -->
+  <ion-modal [isOpen]="exportModal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Export Items as JSON</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeExportModal()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        
+          <ion-item>
+            <ion-textarea auto-grow="true" [(ngModel)]="exportJSON"></ion-textarea>
+          </ion-item>
+          
+        </ion-content>
+    </ng-template>
+  </ion-modal>
 
+  <!-- Import JSON Modal -->
+  <ion-modal [isOpen]="importModal">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Import Items as JSON</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="closeImportModal()">Close</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+          
+        <ion-label>Enter JSON format</ion-label>
+        <ion-textarea auto-grow="true" [(ngModel)]="importJSON"></ion-textarea>
+        <ion-button expand="block" (click)="importItems()">Import</ion-button>
+        </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

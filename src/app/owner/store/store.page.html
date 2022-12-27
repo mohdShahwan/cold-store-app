@@ -26,27 +26,30 @@
   </ion-menu>
   <ion-router-outlet id="store"></ion-router-outlet> -->
 
-  <ion-menu type='overlay' content-id="store">
-    <ion-content class="ion-padding">
-      <ion-menu-toggle>
-        <ion-item routerLink="/owner/store/items" routerDirection="root" routerLinkActive="active-item">
-          <ion-label>Items</ion-label>
-        </ion-item>
-        <ion-item routerLink="/owner/store/order" routerDirection="root" routerLinkActive="active-item">
-          <ion-label>Order</ion-label>
-        </ion-item>
-      </ion-menu-toggle>
-    </ion-content>
-  </ion-menu>
-  
-  <div class="ion-page" id="store">
-    <ion-header>
-      <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <ion-title>Store</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-router-outlet></ion-router-outlet>
-  </div>
+<ion-menu type='overlay' content-id="store">
+  <ion-content class="ion-padding">
+    <ion-menu-toggle>
+      <ion-item routerLink="/owner/store/stock" routerDirection="root" routerLinkActive="active-item">
+        <ion-label>Store Stock</ion-label>
+      </ion-item>
+      <ion-item routerLink="/owner/store/items" routerDirection="root" routerLinkActive="active-item">
+        <ion-label>Browse Items</ion-label>
+      </ion-item>
+      <ion-item routerLink="/owner/store/order" routerDirection="root" routerLinkActive="active-item">
+        <ion-label>Orders</ion-label>
+      </ion-item>
+    </ion-menu-toggle>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="store">
+  <!-- <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Store</ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+  <ion-router-outlet></ion-router-outlet>
+</div>
