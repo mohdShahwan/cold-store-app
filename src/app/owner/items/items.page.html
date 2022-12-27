@@ -12,11 +12,11 @@
   </ion-header>
 
   <ion-item>
-    <ion-searchbar placeholder="Search..." [(ngModel)]="filterTerm" animated></ion-searchbar>
+    <ion-searchbar placeholder="Search by item name or supplier" [(ngModel)]="filterTerm" animated></ion-searchbar>
   </ion-item>
   <ion-list>
     
-    <ion-item *ngFor="let sItem of fb.allStoreItems | filter:filterTerm " [color]="sItem.quantity<sItem.threshold? 'danger' : ''" (click)="editStoreItem(sItem)">
+    <ion-item *ngFor="let sItem of fb.allStoreItems | filter:filterTerm " [color]="sItem.quantity<sItem.threshold? 'danger' : null" (click)="editStoreItem(sItem)">
       <ion-checkbox slot="start" [checked]="checkItem(sItem)" (ionChange)="toggleItem(sItem)"></ion-checkbox>
       <ion-label>
         <h1>{{sItem.item.name}}</h1>
@@ -33,6 +33,7 @@
     </ion-item>
   </ion-list>
 
+  <!-- Sticky Update -->
   <div *ngIf="selectedItems.length>0">
     <ion-item>
       <ion-label class="ion-text-wrap">Update threshold for the selected items</ion-label><br>

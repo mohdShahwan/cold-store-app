@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FbService, StoreItem } from 'src/app/fb.service';
 
 @Component({
@@ -16,15 +16,21 @@ export class ItemsPage implements OnInit {
   ngOnInit() {
   }
 
+  ngAfterViewInit() {
+    
+  }
+
   editStoreItem(item: StoreItem) {
     //this.fb.editStoreItem(item);
   }
   
   selectedItems: StoreItem[] = [];
+  // Check if item is selected
   checkItem(sItem: StoreItem) {
     return this.selectedItems.filter(item => sItem == item).length > 0;
   }
   toggleItem(sItem: StoreItem) {
+    // if the item is already selected, remove it from the array
     if (this.checkItem(sItem)) {
       this.selectedItems = this.selectedItems.filter(item => item != sItem);
     } else {
@@ -48,7 +54,9 @@ export class ItemsPage implements OnInit {
     for(let sItem of this.selectedItems){
       sItem.threshold = this.newThreshold;
       this.fb.updateStoreItem(sItem);
+      this.toggleItem(sItem);
     }
+    this.selectedItems = [];
   }
 
   orderQuantity: number | undefined;
