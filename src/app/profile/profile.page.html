@@ -10,6 +10,16 @@
       <ion-title size="large">{{fb.currentUser.userType | titlecase}} Profile</ion-title>
     </ion-toolbar>
   </ion-header>
+  <div *ngIf="this.fb.currentUser.userType==='owner'">
+    <ion-card>
+      <ion-card-header>
+        Products
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #barCanvas style="position: relative; height:20vh; width:40vw"></canvas>
+      </ion-card-content>
+    </ion-card>
+  </div>
 
   <ion-item>
     <ion-label position="floating">Name: </ion-label>

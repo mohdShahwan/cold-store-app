@@ -114,20 +114,21 @@ export class FbService {
 
   public shiftReqs: TradeShiftRequest[] = [];
   public tradeShiftReqsCollection: AngularFirestoreCollection<TradeShiftRequest>;
-  public tradeShiftReqs: Observable<TradeShiftRequest[]>; 
+  public tradeShiftReqs: Observable<TradeShiftRequest[]>;
 
   public allStoreItems: StoreItem[] = [];
   public storeItemsCollection: AngularFirestoreCollection<StoreItem>;
-  public storeItems: Observable<StoreItem[]>; 
+  public storeItems: Observable<StoreItem[]>;
 
   public allOrders: Order[] = [];
   public ordersCollection: AngularFirestoreCollection<Order>;
-  public orders: Observable<Order[]>; 
-  
+  public orders: Observable<Order[]>;
+
+
 private cart = [];
 private cartItemCount = new BehaviorSubject(0);
 
-  constructor(private  afs:  AngularFirestore, private  afAuth: AngularFireAuth, private toastCtrl: ToastController, private router: Router, private navCtrl: NavController) { 
+  constructor(private  afs:  AngularFirestore, private  afAuth: AngularFireAuth, private toastCtrl: ToastController, private router: Router, private navCtrl: NavController) {
     // Users Collection
     this.usersCollection = this.afs.collection<User>('users');
     this.users = this.usersCollection.snapshotChanges().pipe(
@@ -157,7 +158,7 @@ private cartItemCount = new BehaviorSubject(0);
       })
     );
     this.items.subscribe(items => {this.allItems = items;});
-    
+
     // Slots Collection
     this.slotsCollection = this.afs.collection<Slot>('slots');
     this.slots = this.slotsCollection.snapshotChanges().pipe(
@@ -244,7 +245,7 @@ private cartItemCount = new BehaviorSubject(0);
   addOrder(order: Order): Promise<DocumentReference> {
     return this.ordersCollection.add(order);
   }
-  
+
   getUser(id: string): Observable<User | undefined>{
     return this.usersCollection.doc<User>(id).valueChanges().pipe(
       map(user => {
@@ -262,11 +263,11 @@ private cartItemCount = new BehaviorSubject(0);
       }).catch(err => {
         this.showToast('Error updating profile', 'danger');
       }
-    );  
+    );
   }
 
   updateUser(user: User): Promise<any> {
-    return this.usersCollection.doc(user.id).update(user); 
+    return this.usersCollection.doc(user.id).update(user);
   }
 
   updateTradeShiftRequest(tradeShiftRequest: TradeShiftRequest): Promise<any> {
