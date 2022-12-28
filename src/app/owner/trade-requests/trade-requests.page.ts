@@ -15,6 +15,7 @@ export class TradeRequestsPage implements OnInit {
     private alertCtrl: AlertController,
   ) { }
 
+  seg: string = 'pending';
   ngOnInit() {
     this.fb.tradeShiftReqs
       .subscribe(reqs => {
