@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FbService, Slot } from 'src/app/fb.service';
 
 @Component({
   selector: 'app-schedule',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SchedulePage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public fb: FbService,
+  ) { }
 
+  slots: Slot[] = [];
   ngOnInit() {
+    this.fb.slots.subscribe(slots => {
+      this.slots = slots.filter(slot => slot.employee.email == this.fb.currentUser.email);
+    });
   }
+
+
 
 }

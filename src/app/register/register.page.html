@@ -5,36 +5,31 @@
 </ion-header>
 
 <ion-content>
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Register</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-item>
+  <ion-item lines="full">
     <ion-label position="floating" type="name">First Name</ion-label>
     <ion-input type="text" [(ngModel)]="fName"></ion-input>
   </ion-item>
-  <ion-item>
+  <ion-item lines="full">
     <ion-label position="floating" type="name">Last Name</ion-label>
     <ion-input type="text" [(ngModel)]="lName"></ion-input>
   </ion-item>
-  <ion-item>
+  <ion-item lines="full">
     <ion-label position="floating" type="email">Email</ion-label>
     <ion-input type="email" [(ngModel)]="email"></ion-input>
   </ion-item>
-  <ion-item>
+  <ion-item lines="full">
     <ion-label position="floating" type="number">Phone</ion-label>
     <ion-input type="text" [(ngModel)]="phone"></ion-input>
   </ion-item>
-  <ion-item>
+  <ion-item lines="full">
     <ion-label position="floating" type="password">Password</ion-label>
     <ion-input type="password" [(ngModel)]="password1"></ion-input>
   </ion-item>
-  <ion-item>
+  <ion-item lines="full">
     <ion-label position="floating" type="password">Confirm Password</ion-label>
     <ion-input type="password" [(ngModel)]="password2"></ion-input>
   </ion-item>
-  <ion-item>
+  <ion-item lines="full">
     <ion-label>User Type</ion-label>
     <ion-select interface="action-sheet" [(ngModel)]="userType" placeholder="Select One">
       <ion-select-option value="owner">Cold Store Owner</ion-select-option>
@@ -42,8 +37,10 @@
       <ion-select-option value="supplier">Supplier</ion-select-option>
     </ion-select>
   </ion-item>
-  <ion-button expand="block" (click)="registerUser()">Register</ion-button>
-  <ion-buttons>
-    Already have an account? <ion-button routerLink="/login">Log in</ion-button>
-  </ion-buttons>
+  <ion-row>
+    <ion-col>
+      <ion-button expand="block" (click)="registerUser()">Register</ion-button>
+      <div class="ion-text-center">Already have an account? <a routerLink="/login">Log in</a></div>
+    </ion-col>
+  </ion-row>
 </ion-content>

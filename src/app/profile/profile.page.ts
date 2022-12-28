@@ -30,13 +30,33 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
   }
 
+<<<<<<< HEAD
   ngAfterViewInit() {
     this.barChartMethod();
   }
 
   updateUser() {
+=======
+  async updateUser() {
+>>>>>>> UI
     // Check if any field has been touched to enable the update button
-    this.fb.updateCurrentUser();
+    const alert = await this.alertCtrl.create({
+      header: 'Update Account',
+      message: 'Are you sure you want to update your account?',
+      buttons: [
+        {
+          text: 'Update',
+          handler: () => {this.fb.updateCurrentUser();}
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }
+      ]
+    });
+    alert.present();
+    
   }
 
   async deleteUser() {
@@ -45,17 +65,18 @@ export class ProfilePage implements OnInit {
       message: 'Are you sure you want to delete your account? This action cannot be undone.',
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-        }, {
           text: 'Delete',
           handler: () => {
             this.fb.deleteUserFromCollection();
             this.fb.deleteUserFromAuth();
             this.fb.logOut();
           }
-        }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
       ]
     });
     alert.present();
