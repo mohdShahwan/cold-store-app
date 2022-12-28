@@ -30,15 +30,11 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
   }
 
-<<<<<<< HEAD
   ngAfterViewInit() {
     this.barChartMethod();
   }
 
-  updateUser() {
-=======
   async updateUser() {
->>>>>>> UI
     // Check if any field has been touched to enable the update button
     const alert = await this.alertCtrl.create({
       header: 'Update Account',
@@ -94,7 +90,7 @@ export class ProfilePage implements OnInit {
         labels: this.productNames,
         datasets: [{
           label: 'Number of Products',
-          data: this.productQuantities,
+          data: [200, 50, 30, 15, 20, 34],//this.productQuantities
           backgroundColor: [
             'rgba(141,198,217,0.69)',
             'rgba(54, 162, 235, 0.2)',

@@ -32,6 +32,8 @@ export class ShiftTradePage implements OnInit {
           this.pendingComingReqs = reqs.filter(req => req.receiver.id == this.fb.currentUser.id && !req.empApprove && req.status == 'pending');
         });
     }
+
+    segment: string = 'available';
     
     
   tradeSlots: Slot[] = [];
